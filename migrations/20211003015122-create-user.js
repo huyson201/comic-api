@@ -14,9 +14,28 @@ module.exports = {
       user_email: {
         type: Sequelize.STRING,
         unique: true,
+        allowNull: false,
+        validate: {
+          isEmail: { msg: "email invalid" },
+          notEmpty: { msg: "email is empty" },
+          notNull: { msg: "email is null" }
+        }
       },
       user_password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          min: 6,
+          notNull: { msg: "email is null" },
+          notEmpty: { msg: "email is empty" }
+        }
+      },
+      user_image: {
         type: Sequelize.STRING
+      },
+      user_role: {
+        type: Sequelize.STRING,
+        defaultValue: "user"
       },
       remember_token: {
         type: Sequelize.STRING,

@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+    toJSON() {
+      return { ...this.get(), user_password: undefined, remember_token: undefined }
+    }
   };
   User.init({
     user_uuid: {
@@ -26,9 +29,28 @@ module.exports = (sequelize, DataTypes) => {
     user_email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
+      validate: {
+        isEmail: { msg: "email invalid" },
+        notEmpty: { msg: "email is empty" },
+        notNull: { msg: "email is null" }
+      }
     },
     user_password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: 6,
+        notNull: { msg: "email is null" },
+        notEmpty: { msg: "email is empty" }
+      }
+    },
+    user_image: {
       type: DataTypes.STRING
+    },
+    user_role: {
+      type: DataTypes.STRING,
+      defaultValue: "user"
     },
     remember_token: {
       type: DataTypes.STRING,
