@@ -16,6 +16,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      chapter_imgs: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

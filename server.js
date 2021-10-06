@@ -7,6 +7,7 @@ const cors = require('cors')
 const route = require('./routes')
 const PORT = process.env.PORT || 4000
 
+const fs = require('fs')
 
 
 app.use(cors())
@@ -19,6 +20,7 @@ route(app)
 
 
 server.listen(PORT, () => {
-    // sequelize.sync()
+
     console.log('server is running on port ' + PORT)
 })
+

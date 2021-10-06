@@ -27,7 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     chapter_name: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    chapter_imgs: {
+      type: DataTypes.TEXT
+    },
   }, {
     sequelize,
     modelName: 'Chapter',

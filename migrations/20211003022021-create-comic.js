@@ -11,6 +11,9 @@ module.exports = {
       comic_name: {
         type: Sequelize.STRING
       },
+      comic_img: {
+        type: Sequelize.STRING
+      },
       comic_desc: {
         type: Sequelize.TEXT,
         allowNull: true
