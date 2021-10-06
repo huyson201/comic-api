@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/register
+POST http://localhost:3001/api/users
 content-type: application/json
 
 {
@@ -13,8 +13,8 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"huyson@gmail.com",
-    "user_password": "asdasd123"
+    "user_email" :"huyson201@gmail.com",
+    "user_password": "huyson201"
 }
 
 ###
@@ -23,4 +23,13 @@ content-type: application/json
 
 {
     "refreshToken" :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1NzllOTU5NS04MzQ3LTRlNWYtODE1MC05MTQzMTI1Nzk3ZWUiLCJ1c2VyX25hbWUiOiJhc2Rxd2Vkc2EiLCJ1c2VyX2VtYWlsIjoiaHV5c29uQGdtYWlsLmNvbSIsInVzZXJfaW1hZ2UiOm51bGwsInVzZXJfcm9sZSI6InVzZXIiLCJjcmVhdGVkQXQiOiIyMDIxLTEwLTA0VDEyOjI3OjQyLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTEwLTA0VDEyOjQyOjI0LjAwMFoiLCJpYXQiOjE2MzMzNTE2MjAsImV4cCI6MTYzMzM1MTY1MH0.Jj7XfIgsWlXJS81e32vRCvp4r7bHH63Ji4trfJyHeOo"
+}
+
+###
+PATCH http://localhost:3001/api/users/517be5df-feda-48db-a6c7-d12639a6718c
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1MTdiZTVkZi1mZWRhLTQ4ZGItYTZjNy1kMTI2MzlhNjcxOGMiLCJ1c2VyX25hbWUiOiJhc2Rxd2Vkc2EiLCJ1c2VyX2VtYWlsIjoiaHV5c29uMjAxQGdtYWlsLmNvbSIsInVzZXJfaW1hZ2UiOm51bGwsInVzZXJfcm9sZSI6InVzZXIiLCJjcmVhdGVkQXQiOiIyMDIxLTEwLTA2VDA0OjAzOjAwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTEwLTA2VDA0OjM2OjExLjAwMFoiLCJpYXQiOjE2MzM0OTU5NTgsImV4cCI6MTYzMzUzOTE1OH0.aIdFhmsjWhG6Wibgr7jp7DDx-_7NYixBFQkpvZz3sj8
+
+{
+    "user_name": "Nguyen Doan Huy Son"
 }

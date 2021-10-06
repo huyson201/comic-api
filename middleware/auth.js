@@ -1,6 +1,7 @@
 const validator = require('validator');
 const { User } = require('../models')
-
+const jwt_decode = require('jwt-decode')
+const jwt = require('jsonwebtoken');
 class AuthMiddleware {
 
     async login(req, res, next) {
@@ -15,29 +16,31 @@ class AuthMiddleware {
 
         if (!validator.isLength(user_password, { min: 6 })) return res.status(202).json({ message: "require password length > 6 " })
 
-        next()
+        return next()
     }
 
-    async register(req, res, next) {
-        if (Object.keys(req.body).length === 0) return res.status(202).json({ message: "user info null" })
+    async checkUserToken(req, res, next) {
+        let token
+        let uuid = req.params.uuid
+        let { user_role, user_uuid, user_email } = req.body
 
-        let { user_email, user_password, user_name } = req.body
+        if (user_role || user_uuid || user_email) return res.json({ msg: 'data invalid' })
 
-        if (!user_email || user_email === "") return res.status(202).json({ message: "email required!" })
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            token = req.headers.authorization.split(' ')[1]
+            try {
+                let decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                if (uuid === decoded.user_uuid) return next()
+                res.json({ msg: 'user token invalid' })
+            }
+            catch (err) {
+                return res.send(err)
+            }
 
-        if (!validator.isEmail(user_email)) return res.status(202).json({ message: "email not valid" })
 
-        if (await User.findOne({ where: { user_email: user_email } }) !== null) {
-            return res.status(202).json({ message: "email exist!" })
         }
 
-        if (!user_password || user_password === "") return res.status(202).json({ message: "password required!" })
-
-        if (!validator.isLength(user_password, { min: 6 })) return res.status(202).json({ message: "require password length > 6 " })
-
-        if (!user_name || user_name === "") return res.status(202).json({ message: "user name required!" })
-
-        next()
+        return res.status(401).json({ code: 401, name: 'Access denied', message: 'Invalid token provided.' });
     }
 }
 

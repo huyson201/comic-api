@@ -1,6 +1,6 @@
 const express = require('express')
-const comicsRoute = express.Router()
+const comicRoute = express.Router()
 const comicController = require('../controllers/comicController')
-comicsRoute.get('/', comicController.index)
-comicsRoute.get('/:id(([0-9])+)', comicController.getById)
-module.exports = comicsRoute
+comicRoute.get('/', comicController.index)
+comicRoute.get('/:id(([0-9])+)', comicController.getById)
+module.exports = comicRoute

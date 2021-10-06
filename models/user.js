@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     user_image: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     user_role: {
       type: DataTypes.STRING,
