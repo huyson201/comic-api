@@ -1,4 +1,5 @@
 const { Comic } = require('../models')
+const { Op } = require("sequelize");
 class ComicController {
 
     async index(req, res) {
@@ -43,6 +44,30 @@ class ComicController {
             })
         }
         catch (err) {
+            return res.send(err)
+        }
+    }
+
+    async searchByKey(req, res) {
+        let key = req.query.q
+        if (!key) return res.json({ msg: "keyword not found!" })
+
+        try {
+            let comics = await Comic.findAll({
+                where: {
+                    comic_name: {
+                        [Op.like]: `%${key}%`,
+                    }
+                }
+            })
+            console.log("comics")
+            return res.json({
+                msg: "success",
+                data: comics
+            })
+        }
+        catch (err) {
+            console.log(err)
             return res.send(err)
         }
     }
