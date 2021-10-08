@@ -46,6 +46,32 @@ class AuthController {
 
     }
 
+    // create new user
+    async register(req, res) {
+        // get request data
+        let { user_email, user_password, user_name, confirm_password } = req.body
+
+        if (!confirm_password || confirm_password !== user_password) return res.json({
+            msg: "confirm password invalid"
+        })
+
+        // hash password
+        let hash = bcrypt.hashSync(user_password, 10)
+
+        // create a new user
+        try {
+            let user = await User.create({ user_email, user_password: hash, user_name })
+            return res.json({
+                msg: "success",
+                data: user
+            })
+        }
+        catch (err) {
+            console.log(err)
+            return res.json({ error: "something error" })
+        }
+
+    }
 
     // logout
     logout(req, res) {

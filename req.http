@@ -1,9 +1,10 @@
-POST http://localhost:3001/api/users
+POST http://localhost:3001/api/register
 content-type: application/json
 
 {
-    "user_email": "huyson202@gmail.com",
-    "user_password": "huyson201",
+    "user_email": "huyson203@gmail.com",
+    "user_password": "dasd",
+    "confirm_password": "huyson201",
     "user_name": "asdqwedsa"
    
 }

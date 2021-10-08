@@ -4,7 +4,7 @@ const jwt_decode = require('jwt-decode')
 const jwt = require('jsonwebtoken');
 class AuthMiddleware {
 
-    async login(req, res, next) {
+    async checkFiled(req, res, next) {
         if (Object.keys(req.body).length === 0) return res.status(202).json({ message: "require email and password" })
         let { user_email, user_password } = req.body
 
@@ -22,9 +22,6 @@ class AuthMiddleware {
     async checkUserToken(req, res, next) {
         let token
         let uuid = req.params.uuid
-        let { user_role, user_uuid, user_email } = req.body
-
-        if (user_role || user_uuid || user_email) return res.json({ msg: 'data invalid' })
 
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             token = req.headers.authorization.split(' ')[1]
