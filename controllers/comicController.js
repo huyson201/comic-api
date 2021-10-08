@@ -43,9 +43,23 @@ class ComicController {
     async getById(req, res) {
         let comicId = req.params.id
         if (!comicId) return res.status(404).send("not found")
+        let query = {}
+        query.include = [
+            {
+                association: "categories",
+                through: {
+                    attributes: []
+                }
+
+            },
+            {
+                association: "chapters",
+                attributes: ['chapter_id', 'chapter_name', 'createdAt', 'updatedAt'],
+            }
+        ]
 
         try {
-            let comic = await Comic.findByPk(comicId, { include: { association: "categories" } })
+            let comic = await Comic.findByPk(comicId, query)
 
             return res.status(202).json({
                 msg: 'success',
