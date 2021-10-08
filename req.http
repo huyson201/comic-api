@@ -14,7 +14,7 @@ content-type: application/json
 
 {
     "user_email" :"huyson201@gmail.com",
-    "user_password": "huyson201"
+    "user_password": "huys"
 }
 
 ###
@@ -37,3 +37,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1M
 ###
 GET http://localhost:3001/api/categories/2/comics
 content-type: application/json 
+
+###
+POST http://localhost:3001/api/rates
+content-type: application/json 
+
+{
+    "rate_star" : 3,
+    "user_uuid": "517be5df-feda-48db-a6c7-d12639a6718c",
+    "comic_id": 1
+}

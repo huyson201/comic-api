@@ -22,6 +22,9 @@ class ComicController {
                 association: "chapters",
                 attributes: ['chapter_id', 'comic_id', 'chapter_name', 'updatedAt', 'createdAt'],
                 required: true,
+                order: [["chapter_id", "desc"]],
+                limit: 1,
+                offset: 0
             }
         ]
 
@@ -54,7 +57,7 @@ class ComicController {
             },
             {
                 association: "chapters",
-                attributes: ['chapter_id', 'chapter_name', 'createdAt', 'updatedAt'],
+                attributes: ['chapter_id', 'comic_id', 'chapter_name', 'createdAt', 'updatedAt'],
             }
         ]
 
