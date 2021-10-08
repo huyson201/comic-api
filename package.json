@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "start": "nodemon server.js"
+        "start": "nodemon server.js",
+		"import" : "node ./util/importDB.js"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",

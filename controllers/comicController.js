@@ -1,19 +1,34 @@
-const { Comic } = require('../models')
+const { Comic, sequelize } = require('../models')
 const { Op } = require("sequelize");
 class ComicController {
 
     async index(req, res) {
-        let { limit, offset } = req.query
+        let { limit, offset, sort } = req.query
+
+        let query = {}
+
+        if (limit) query.limit = +limit
+
+        if (offset) query.offset = +offset
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[col, value]]
+        }
+
+        query.include = [
+            {
+                association: "chapters",
+                attributes: ['chapter_id', 'comic_id', 'chapter_name', 'updatedAt', 'createdAt'],
+                required: true,
+            }
+        ]
+
 
         try {
-            if (limit && offset) {
-                let comics = await Comic.findAll({ offset: +offset, limit: +limit })
-                return res.json({
-                    msg: "success",
-                    data: comics
-                })
-            }
-            let comics = await Comic.findAll()
+
+            let comics = await Comic.findAll(query)
             return res.json({
                 msg: "success",
                 data: comics
@@ -30,13 +45,7 @@ class ComicController {
         if (!comicId) return res.status(404).send("not found")
 
         try {
-            let comic = await Comic.findByPk(comicId,
-                {
-                    include: 'categories',
-                    through: {
-                        attributes: [],
-                    }
-                })
+            let comic = await Comic.findByPk(comicId, { include: { association: "categories" } })
 
             return res.status(202).json({
                 msg: 'success',
@@ -44,6 +53,7 @@ class ComicController {
             })
         }
         catch (err) {
+            console.log(err)
             return res.send(err)
         }
     }
@@ -71,6 +81,47 @@ class ComicController {
             return res.send(err)
         }
     }
+
+    async filter(req, res) {
+        let { status, categories } = req.query
+
+        let query = {
+            where: {
+                [Op.and]: []
+            }
+        }
+
+        query.include = [
+            {
+                association: "categories",
+                through: {
+                    attributes: []
+                },
+                required: true,
+            }
+        ]
+
+        if (status) {
+            query.where[Op.and].push({ comic_status: status })
+        }
+
+        if (categories) {
+            categories = JSON.parse(categories)
+            query.where[Op.and].push({ '$categories.category_id$': { [Op.in]: categories } })
+        }
+        console.log(Symbol('and'))
+
+        try {
+            let comics = await Comic.findAll(query)
+            return res.json(comics)
+        }
+
+        catch (err) {
+            console.log(err)
+            return res.send(err)
+        }
+    }
+
 }
 
 const comicController = new ComicController

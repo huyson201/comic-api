@@ -43,7 +43,7 @@ class UserController {
     // create new user
     async create(req, res) {
         // get request data
-        let { user_email, user_password, user_name } = req.body
+        let { user_email, user_password, user_name, user_role } = req.body
 
         // hash password
         let hash = bcrypt.hashSync(user_password, 10)

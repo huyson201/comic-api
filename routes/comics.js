@@ -4,4 +4,5 @@ const comicController = require('../controllers/comicController')
 comicRoute.get('/', comicController.index)
 comicRoute.get('/:id(([0-9])+)', comicController.getById)
 comicRoute.get('/search', comicController.searchByKey)
+comicRoute.get('/filter', comicController.filter)
 module.exports = comicRoute

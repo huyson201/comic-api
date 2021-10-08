@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const category = require('./category');
 module.exports = (sequelize, DataTypes) => {
   class Comic extends Model {
     /**
@@ -9,14 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Category }) {
+    static associate({ Category, Chapter }) {
       this.belongsToMany(Category, {
         through: "comic_categories",
         as: "categories",
         foreignKey: "comic_id",
-        otherKey: "category_id"
+        otherKey: "category_id",
 
       })
+
+      this.hasMany(Chapter, { foreignKey: "comic_id", as: "chapters" })
     }
   };
   Comic.init({
