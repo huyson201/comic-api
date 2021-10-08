@@ -2,9 +2,18 @@ const { Category } = require('../models')
 
 class CategoryController {
     async index(req, res) {
-        return res.json({
-            categories: "categories"
-        })
+        try {
+            let categories = await Category.findAll()
+            return res.json({
+                msg: "success",
+                data: categories
+            })
+        }
+        catch (err) {
+            console.log(err)
+            return res.send(err)
+        }
+
     }
 
     async getComicsByCategory(req, res) {
