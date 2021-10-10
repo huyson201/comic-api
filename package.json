@@ -1,7 +1,7 @@
 {
     "scripts": {
         "start": "nodemon server.js",
-		"import" : "node ./util/importDB.js"
+        "import": "node ./util/importDB.js"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
@@ -13,6 +13,7 @@
         "jwt-decode": "^3.1.2",
         "mysql2": "^2.3.0",
         "sequelize": "^6.6.5",
+        "sequelize-cli": "^6.2.0",
         "validator": "^13.6.0"
     },
     "devDependencies": {
