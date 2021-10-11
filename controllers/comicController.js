@@ -31,7 +31,7 @@ class ComicController {
 
         try {
 
-            let comics = await Comic.findAll(query)
+            let comics = await Comic.findAndCountAll(query)
             return res.json({
                 msg: "success",
                 data: comics
