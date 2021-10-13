@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: "user"
     },
     remember_token: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {

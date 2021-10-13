@@ -38,7 +38,7 @@ module.exports = {
         defaultValue: "user"
       },
       remember_token: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       createdAt: {

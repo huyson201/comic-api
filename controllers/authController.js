@@ -22,7 +22,7 @@ class AuthController {
             // generate token and refresh token
             let payload = { ...user.dataValues, user_password: undefined, remember_token: undefined }
 
-            let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' })
+            let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
 
             let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
 
@@ -84,8 +84,8 @@ class AuthController {
         let refreshToken = req.body.refreshToken
 
         try {
-            let user = User.findOne({ where: { remember_token: refreshToken } })
-            if (user === null) return res.json({ msg: "refresh token not exist" })
+            let user = await User.findOne({ where: { remember_token: refreshToken } })
+            if (!user) return res.json({ msg: "refresh token not exist" })
             // check token
             try {
                 // check expired
@@ -94,16 +94,27 @@ class AuthController {
 
                 // verify token
                 let decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-                return res.json(decoded)
+                if (!decoded) return res.json({ err: "token invalid" })
+
+                // generate token and refresh token
+                let payload = { ...user.dataValues, user_password: undefined, remember_token: undefined }
+
+                let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+                console.log(user)
+                return res.json({
+                    msg: "success",
+                    data: user,
+                    token: token
+                })
 
             } catch (err) {
                 // err
                 console.log(err)
-                return res.json({ msg: "error verify refresh token" })
+                return res.json({ err: "error verify refresh token" })
             }
 
         } catch (err) {
-            return res.json({ msg: "something error!" })
+            return res.json({ err: "something error!" })
         }
     }
 
