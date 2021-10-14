@@ -3,8 +3,8 @@ const userRoute = express.Router()
 const userController = require('../controllers/userController')
 const authMiddleware = require('../middleware/auth')
 
-userRoute.get('/', userController.index)
-userRoute.get('/:uuid', userController.getById)
+userRoute.get('/', authMiddleware.checkUserToken, userController.index)
+userRoute.get('/:uuid', authMiddleware.checkUserToken, userController.getById)
 
 userRoute.post('/', userController.create)
 

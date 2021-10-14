@@ -5,20 +5,29 @@ const bcrypt = require('bcrypt');
 class UserController {
     //get all users
     async index(req, res) {
-        let { limit, offset } = req.query
+        let { limit, offset, sort } = req.body
+        let uuid = req.user_uuid
+        const query = {}
+        if (offset) query.offset = +offset
+        if (limit) query.limit = +limit
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[col, value]]
+        }
         try {
-            if (limit && offset) {
-                let users = await User.findAll({ offset: +offset, limit: +limit })
-                return res.json({
-                    msg: "success",
-                    data: users
-                })
-            }
-            let users = await User.findAll()
+            let user = await User.findByPk(uuid)
+            if (!user) return res.json({ err: "you mustn't login before accessing!" })
+            if (user.user_role !== "admin") return res.json({ err: "you don't have permission!" })
+
+            let users = await User.findAll(query)
+
             return res.json({
                 msg: "success",
                 data: users
             })
+
         } catch (err) {
             return res.send(err)
         }
@@ -28,8 +37,16 @@ class UserController {
     // get user by uuid
     async getById(req, res) {
         let userId = req.params.uuid
+        let uuid = req.user_uuid
+        console.log(uuid)
+        console.log(userId)
         try {
-            let user = await User.findByPk(userId)
+            let user = await User.findByPk(uuid)
+            if (!user) return res.json({ err: "you mustn't login before accessing!" })
+
+            if (user.user_role !== "admin" && uuid !== userId) return res.json({ err: "you don't have permission!" })
+
+            let userDetail = await User.findByPk(userId)
             res.json({
                 msg: 'success',
                 data: user
