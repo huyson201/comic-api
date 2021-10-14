@@ -45,12 +45,12 @@ class UserController {
         // get request data
         let { user_email, user_password, user_name, user_role } = req.body
 
-        // hash password
-        let hash = bcrypt.hashSync(user_password, 10)
+        if (!user_role) user_role = "user"
+
 
         // create a new user
         try {
-            let user = await User.create({ user_email, user_password: hash, user_name })
+            let user = await User.create({ user_email, user_password, user_name, user_role })
             return res.json({
                 msg: "success",
                 data: user
@@ -66,10 +66,12 @@ class UserController {
     // update user
     async update(req, res) {
         let data = req.body
-        let uuid = req.params.uuid
+        let uuid = req.user_uuid
+        console.log(uuid)
         try {
             let user = await User.findByPk(uuid)
-            user.update(data)
+            if (data.user_role && user.user_role === 'user') return res.json({ err: `don't have permission` })
+            user = await user.update(data)
             return res.json({
                 msg: "update success",
                 data: user
@@ -77,6 +79,29 @@ class UserController {
         }
         catch (err) {
             return res.send(err)
+        }
+    }
+
+    async changePassword(req, res) {
+        let { old_password, new_password } = req.body
+        let uuid = req.user_uuid
+
+        try {
+            let user = await User.findByPk(uuid)
+            if (!user) return res.json({ err: "user not found" })
+
+            // verify password
+            let verifyPassword = bcrypt.compareSync(old_password, user.user_password)
+            if (!verifyPassword) res.json({ err: "old password invalid" })
+            user.user_password = new_password
+            user = await user.save()
+            return res.json({
+                msg: "success",
+                data: user
+            })
+
+        } catch (err) {
+
         }
     }
 }

@@ -21,14 +21,13 @@ class AuthMiddleware {
 
     async checkUserToken(req, res, next) {
         let token
-        let uuid = req.params.uuid
 
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             token = req.headers.authorization.split(' ')[1]
             try {
                 let decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-                if (uuid === decoded.user_uuid) return next()
-                res.json({ msg: 'user token invalid' })
+                req.user_uuid = decoded.user_uuid
+                return next()
             }
             catch (err) {
                 return res.send(err)

@@ -8,5 +8,6 @@ userRoute.get('/:uuid', userController.getById)
 
 userRoute.post('/', userController.create)
 
-userRoute.patch('/:uuid', authMiddleware.checkUserToken, userController.update)
+userRoute.patch('/', authMiddleware.checkUserToken, userController.update)
+userRoute.patch('/change-password', authMiddleware.checkUserToken, userController.changePassword)
 module.exports = userRoute

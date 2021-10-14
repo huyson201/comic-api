@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -43,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
         min: 6,
         notNull: { msg: "email is null" },
         notEmpty: { msg: "email is empty" }
+      },
+      set(value) {
+        let hash = bcrypt.hashSync(value, 10)
+        this.setDataValue('user_password', hash)
       }
     },
     user_image: {

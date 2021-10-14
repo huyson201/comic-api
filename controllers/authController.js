@@ -55,12 +55,11 @@ class AuthController {
             msg: "confirm password invalid"
         })
 
-        // hash password
-        let hash = bcrypt.hashSync(user_password, 10)
+
 
         // create a new user
         try {
-            let user = await User.create({ user_email, user_password: hash, user_name })
+            let user = await User.create({ user_email, user_password, user_name })
             return res.json({
                 msg: "success",
                 data: user
