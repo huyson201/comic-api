@@ -76,18 +76,26 @@ class ComicController {
     }
 
     async searchByKey(req, res) {
-        let key = req.query.q
-        if (!key) return res.json({ msg: "keyword not found!" })
+        let { q, offset, limit, sort } = req.query
+        if (!q) return res.json({ err: "keyword not found!" })
+        const query = {}
+        query.where = {
+            comic_name: {
+                [Op.like]: `%${q}%`,
+            }
+        }
+
+        if (offset) query.offset = +offset
+        if (limit) query.limit = +limit
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[col, value]]
+        }
 
         try {
-            let comics = await Comic.findAll({
-                where: {
-                    comic_name: {
-                        [Op.like]: `%${key}%`,
-                    }
-                }
-            })
-            console.log("comics")
+            let comics = await Comic.findAndCountAll(query)
             return res.json({
                 msg: "success",
                 data: comics
@@ -100,36 +108,48 @@ class ComicController {
     }
 
     async filter(req, res) {
-        let { status, categories } = req.query
+        let { status, categories, offset, limit, sort } = req.query
 
-        let query = {
+        const query = {
+            include: [],
             where: {
                 [Op.and]: []
-            }
-        }
+            },
 
+        }
+        if (categories) {
+            categories = JSON.parse(categories)
+        }
         query.include = [
             {
                 association: "categories",
+                where: { 'category_id': { [Op.in]: categories } },
+                attributes: [],
                 through: {
                     attributes: []
                 },
-                required: true,
             }
         ]
+
+        if (offset) query.offset = +offset
+        if (limit) query.limit = +limit
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[col, value]]
+        }
 
         if (status) {
             query.where[Op.and].push({ comic_status: status })
         }
 
-        if (categories) {
-            categories = JSON.parse(categories)
-            query.where[Op.and].push({ '$categories.category_id$': { [Op.in]: categories } })
-        }
-        console.log(Symbol('and'))
+
+
+
 
         try {
-            let comics = await Comic.findAll(query)
+            let comics = await Comic.findAndCountAll(query)
             return res.json(comics)
         }
 
@@ -139,6 +159,60 @@ class ComicController {
         }
     }
 
+    async getCategories(req, res) {
+        let comicId = req.params.id
+        if (!comicId) return res.status(404).send("not found")
+        let query = {}
+        query.include = [
+            {
+                association: "categories",
+                through: {
+                    attributes: []
+                }
+
+            }
+        ]
+
+
+        try {
+            let comic = await Comic.findByPk(comicId, query)
+
+            return res.status(202).json({
+                msg: 'success',
+                data: comic
+            })
+        }
+        catch (err) {
+            console.log(err)
+            return res.send(err)
+        }
+    }
+
+    async getChapters(req, res) {
+        let comicId = req.params.id
+        if (!comicId) return res.status(404).send("not found")
+        let query = {}
+        query.include = [
+            {
+                association: "chapters",
+                attributes: ['chapter_id', 'comic_id', 'createdAt', 'updatedAt']
+            }
+        ]
+
+
+        try {
+            let comic = await Comic.findByPk(comicId, query)
+
+            return res.status(202).json({
+                msg: 'success',
+                data: comic
+            })
+        }
+        catch (err) {
+            console.log(err)
+            return res.send(err)
+        }
+    }
 }
 
 const comicController = new ComicController
