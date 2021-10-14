@@ -4,6 +4,7 @@
         "import": "node ./util/importDB.js"
     },
     "dependencies": {
+        "aws-sdk": "^2.1007.0",
         "bcrypt": "^5.0.1",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
@@ -11,6 +12,7 @@
         "faker": "^5.5.3",
         "jsonwebtoken": "^8.5.1",
         "jwt-decode": "^3.1.2",
+        "multer": "^1.4.3",
         "mysql2": "^2.3.0",
         "sequelize": "^6.6.5",
         "sequelize-cli": "^6.2.0",
