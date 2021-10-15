@@ -2,6 +2,18 @@ const { Chapter } = require('../models')
 
 class ChapterController {
     async index(req, res) {
+        let { limit, offset, sort } = req.quey
+        const query = {}
+
+        if (limit) query.limit = +limit
+        if (offset) query.offset = +offset
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[col, value]]
+        }
+
         try {
             let chapters = await Chapter.findAll()
 

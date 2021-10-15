@@ -6,6 +6,8 @@ const authMiddleware = require('../middleware/auth')
 userRoute.get('/', authMiddleware.checkUserToken, userController.index)
 userRoute.get('/:uuid', authMiddleware.checkUserToken, userController.getById)
 
+userRoute.get('/:uuid/follows', userController.getFollows)
+
 userRoute.post('/', userController.create)
 
 userRoute.patch('/', authMiddleware.checkUserToken, userController.update)

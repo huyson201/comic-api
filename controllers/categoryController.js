@@ -1,4 +1,4 @@
-const { Category } = require('../models')
+const { Category, Comic, sequelize } = require('../models')
 
 class CategoryController {
     async index(req, res) {
@@ -33,23 +33,43 @@ class CategoryController {
     }
     async getComicsByCategory(req, res) {
         let cateId = req.params.id
-        try {
-            let categories = await Category.findAll({
-                where: {
-                    category_id: cateId
-                },
-                include: 'comics'
-            })
+        let { offset, limit, sort } = req.query
+        let query = {
 
+        }
+        query.subQuery = false
+        query.where = { category_id: cateId }
+
+        if (offset) query.offset = +offset
+        if (limit) query.limit = +limit
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[sequelize.literal('`comics`.' + '\`' + col + '\`'), value]]
+        }
+
+        query.include = [
+            {
+                association: 'comics',
+                require: true,
+                through: {
+                    attributes: []
+                },
+
+            }
+        ]
+
+        try {
+            let categories = await Category.findAll(query)
             return res.json({
                 msg: "success",
                 data: categories
             })
         }
         catch (err) {
-            return res.json({
-                name: cateId
-            })
+            console.log(err)
+            return res.send(err)
         }
 
     }

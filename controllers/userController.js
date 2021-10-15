@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, sequelize, Follow } = require('../models')
 const bcrypt = require('bcrypt');
 
 
@@ -122,6 +122,50 @@ class UserController {
         } catch (err) {
 
         }
+    }
+
+    async getFollows(req, res) {
+        let uuid = req.params.uuid
+        let { limit, offset, sort } = req.query
+        let query = {}
+
+        query.subQuery = false
+
+        if (offset) query.offset = +offset
+        if (limit) query.limit = +limit
+
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            query.order = [[sequelize.literal('`comics_follow`.' + '\`' + col + '\`'), value]]
+        }
+
+        query.include = [
+            {
+                association: 'comics_follow',
+                attributes: ['comic_id', 'comic_name', 'comic_img', 'createdAt', 'updatedAt'],
+                through: {
+                    attributes: []
+                },
+            }
+        ]
+        try {
+            let countComics = await Follow.count({ where: { user_uuid: uuid } })
+
+            let user = await User.findByPk(uuid, query)
+            user = user.toJSON()
+            user.count = countComics
+            return res.status(200).json({
+                code: 200,
+                name: "",
+                message: "success",
+                data: user
+            })
+        } catch (error) {
+            console.log(error)
+            return res.send(error)
+        }
+
     }
 }
 const userController = new UserController

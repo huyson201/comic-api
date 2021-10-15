@@ -4,5 +4,6 @@ const rateController = require('../controllers/rateController')
 const authMiddleware = require('../middleware/auth')
 
 rateRoute.get('/', rateController.index)
+rateRoute.get('/:id(\\d+$)', rateController.getById)
 rateRoute.post('/', authMiddleware.checkUserToken, rateController.create)
 module.exports = rateRoute
