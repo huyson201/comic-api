@@ -5,6 +5,8 @@ const userRoute = require('./user')
 const chapterRoute = require('./chapter')
 const rateRoute = require('./rate')
 const followRoute = require('./follow')
+const commentRoute = require('./comment')
+
 function route(app) {
 
     app.use('/api', siteRoute)
@@ -14,6 +16,7 @@ function route(app) {
     app.use('/api/chapters', chapterRoute)
     app.use('/api/rates', rateRoute)
     app.use('/api/follows', followRoute)
+    app.use('/api/comments', commentRoute)
 }
 
 module.exports = route

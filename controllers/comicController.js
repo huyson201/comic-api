@@ -1,4 +1,4 @@
-const { Comic, sequelize } = require('../models')
+const { Comic, sequelize, Comment } = require('../models')
 const { Op } = require("sequelize");
 class ComicController {
 
@@ -213,6 +213,55 @@ class ComicController {
             return res.send(err)
         }
     }
+
+    async getComments(req, res) {
+        let comic_id = req.params.id
+        let { offset, limit, sort } = req.query
+        const queryComic = {}
+        const queryComment = {}
+
+        if (!comic_id) return res.status(404).json({ code: 404, name: "", message: "not found!" })
+        queryComic.attributes = ["comic_id", 'comic_name']
+        queryComic.subQuery = false
+
+        if (offset) queryComment.offset = +offset
+        if (limit) queryComment.limit = +limit
+        if (sort) {
+            let col = sort.split(':')[0]
+            let value = sort.split(':')[1]
+            queryComment.order = [[col, value]]
+        }
+
+        queryComment.where = { comic_id, parent_id: 0 }
+
+        queryComment.include = [
+            {
+                association: 'subComments',
+                require: true,
+                nested: true
+            }
+        ]
+
+
+        try {
+            let comic = (await Comic.findByPk(comic_id, queryComic)).toJSON()
+            let comments = await Comment.findAll(queryComment)
+            comic.comments = comments
+
+            return res.status(200).json({
+                code: 200,
+                name: "",
+                message: "success",
+                data: comic
+            })
+        } catch (error) {
+            console.log(error)
+            return res.send(err)
+        }
+
+    }
+
+
 }
 
 const comicController = new ComicController

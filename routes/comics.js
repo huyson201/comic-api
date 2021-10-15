@@ -7,4 +7,6 @@ comicRoute.get('/:id(\\d+)/categories', comicController.getCategories)
 comicRoute.get('/:id(\\d+)/chapters', comicController.getChapters)
 comicRoute.get('/search', comicController.searchByKey)
 comicRoute.get('/filter', comicController.filter)
+comicRoute.get('/:id(\\d+)/comments', comicController.getComments)
+
 module.exports = comicRoute
