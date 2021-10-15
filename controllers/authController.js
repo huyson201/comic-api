@@ -59,6 +59,8 @@ class AuthController {
 
         // create a new user
         try {
+            let checkUser = await User.findOne({ where: { user_email } })
+            if (checkUser) return res.json({ err: "email exist!" })
             let user = await User.create({ user_email, user_password, user_name })
             return res.json({
                 msg: "success",
