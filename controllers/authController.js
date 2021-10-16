@@ -3,70 +3,72 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
 class AuthController {
+  //login function
+  async login(req, res) {
+    let { user_email, user_password } = req.body;
 
+    try {
+      // get user by email
+      let user = await User.findOne({ where: { user_email } });
+      if (user === null) return res.json({ msg: "email not exist!" });
 
-    //login function
-    async login(req, res) {
-        let { user_email, user_password } = req.body
+      // check password
+      let compare = bcrypt.compareSync(user_password, user.user_password);
 
-        try {
-            // get user by email
-            let user = await User.findOne({ where: { user_email } })
-            if (user === null) return res.json({ msg: "email not exist!" })
+      if (!compare) return res.json({ msg: "password not invalid" });
 
-            // check password
-            let compare = bcrypt.compareSync(user_password, user.user_password)
+      // generate token and refresh token
+      let payload = {
+        ...user.dataValues,
+        user_password: undefined,
+        remember_token: undefined,
+      };
 
-            if (!compare) return res.json({ msg: "password not invalid" })
+      let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "2h",
+      });
 
-            // generate token and refresh token
-            let payload = { ...user.dataValues, user_password: undefined, remember_token: undefined }
+      let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: "7d",
+      });
 
-            let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
+      // save refresh token to user
+      user.update({ remember_token: refreshToken });
 
-            let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
-
-            // save refresh token to user
-            user.update({ remember_token: refreshToken })
-
-            return res.json({
-                msg: "login successfully",
-                data: {
-                    user,
-                    token: token,
-                    refreshToken: refreshToken
-                }
-            })
-
-        }
-        catch (err) {
-            console.log(err)
-            return res.json({ error: "something error" })
-        }
-
+      return res.json({
+        msg: "login successfully",
+        data: {
+          user,
+          token: token,
+          refreshToken: refreshToken,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      return res.json({ error: "something error" });
     }
+  }
 
-    // create new user
-    async register(req, res) {
-        // get request data
-        let { user_email, user_password, user_name, confirm_password } = req.body
+  // create new user
+  async register(req, res) {
+    // get request data
+    let { user_email, user_password, user_name, confirm_password } = req.body;
 
-        if (!confirm_password || confirm_password !== user_password) return res.json({
-            msg: "confirm password invalid"
-        })
+    if (!confirm_password || confirm_password !== user_password)
+      return res.json({
+        msg: "confirm password invalid",
+      });
 
+    // create a new user
+    try {
+      let checkUser = await User.findOne({ where: { user_email } });
+      if (checkUser) return res.json({ err: "email exist!" });
+    }catch (err) {
+      console.log(err);
+      return res.json({ error: "something error" });
+    }
+  }
 
-
-        // create a new user
-        try {
-            let checkUser = await User.findOne({ where: { user_email } })
-            if (checkUser) return res.json({ err: "email exist!" })
-        }
-        catch(err){
-          
-        }
-  
-}
   // logout
   logout(req, res) {
     return res.json({
