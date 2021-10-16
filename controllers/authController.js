@@ -1,7 +1,7 @@
-const { User } = require('../models')
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const jwt_decode = require('jwt-decode');
+const { User } = require("../models");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode");
 class AuthController {
 
 
@@ -61,66 +61,65 @@ class AuthController {
         try {
             let checkUser = await User.findOne({ where: { user_email } })
             if (checkUser) return res.json({ err: "email exist!" })
-            let user = await User.create({ user_email, user_password, user_name })
-            return res.json({
-                msg: "success",
-                data: user
-            })
-        }
-        catch (err) {
-            console.log(err)
-            return res.json({ error: "something error" })
-        }
-
     }
+  }
 
-    // logout
-    logout(req, res) {
+  // logout
+  logout(req, res) {
+    return res.json({
+      msg: "logout successfully",
+    });
+  }
+
+  async refreshToken(req, res) {
+    let refreshToken = req.body.refreshToken;
+
+    try {
+      let user = await User.findOne({
+        where: { remember_token: refreshToken },
+      });
+      if (!user) return res.json({ msg: "refresh token not exist" });
+      // check token
+      try {
+        // check expired
+        let { exp } = jwt_decode(refreshToken);
+        if (Date.now() >= exp * 1000)
+          return res.json({ msg: "refresh token expired" });
+
+        // verify token
+        let decoded = jwt.verify(
+          refreshToken,
+          process.env.REFRESH_TOKEN_SECRET
+        );
+        if (!decoded) return res.json({ err: "token invalid" });
+
+        // generate token and refresh token
+        let payload = {
+          ...user.dataValues,
+          user_password: undefined,
+          remember_token: undefined,
+        };
+
+        let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "2h",
+        });
+        console.log(user);
         return res.json({
-            msg: "logout successfully"
-        })
+          msg: "success",
+          data: user,
+          token: token,
+        });
+      } catch (err) {
+        // err
+        console.log(err);
+        return res.json({ err: "error verify refresh token" });
+      }
+    } catch (err) {
+      return res.json({ err: "something error!" });
     }
-
-    async refreshToken(req, res) {
-        let refreshToken = req.body.refreshToken
-
-        try {
-            let user = await User.findOne({ where: { remember_token: refreshToken } })
-            if (!user) return res.json({ msg: "refresh token not exist" })
-            // check token
-            try {
-                // check expired
-                let { exp } = jwt_decode(refreshToken)
-                if (Date.now() >= exp * 1000) return res.json({ msg: "refresh token expired" })
-
-                // verify token
-                let decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-                if (!decoded) return res.json({ err: "token invalid" })
-
-                // generate token and refresh token
-                let payload = { ...user.dataValues, user_password: undefined, remember_token: undefined }
-
-                let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2h' })
-                console.log(user)
-                return res.json({
-                    msg: "success",
-                    data: user,
-                    token: token
-                })
-
-            } catch (err) {
-                // err
-                console.log(err)
-                return res.json({ err: "error verify refresh token" })
-            }
-
-        } catch (err) {
-            return res.json({ err: "something error!" })
-        }
-    }
-
+  }
 }
 
-const authController = new AuthController;
+const authController = new AuthController();
 
-module.exports = authController
+module.exports = authController;
