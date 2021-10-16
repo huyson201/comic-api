@@ -61,9 +61,12 @@ class AuthController {
         try {
             let checkUser = await User.findOne({ where: { user_email } })
             if (checkUser) return res.json({ err: "email exist!" })
-    }
-  }
-
+        }
+        catch(err){
+          
+        }
+  
+}
   // logout
   logout(req, res) {
     return res.json({
