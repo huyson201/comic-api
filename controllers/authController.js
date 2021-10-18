@@ -10,12 +10,12 @@ class AuthController {
     try {
       // get user by email
       let user = await User.findOne({ where: { user_email } });
-      if (user === null) return res.json({ msg: "email not exist!" });
+      if (user === null) return res.json({ message: "email not exist!" });
 
       // check password
       let compare = bcrypt.compareSync(user_password, user.user_password);
 
-      if (!compare) return res.json({ msg: "password not invalid" });
+      if (!compare) return res.json({ message: "password not invalid" });
 
       // generate token and refresh token
       let payload = {
@@ -25,7 +25,7 @@ class AuthController {
       };
 
       let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "2h",
+        expiresIn: "30s",
       });
 
       let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
@@ -56,14 +56,14 @@ class AuthController {
 
     if (!confirm_password || confirm_password !== user_password)
       return res.json({
-        msg: "confirm password invalid",
+        message: "confirm password invalid",
       });
 
     // create a new user
     try {
       let checkUser = await User.findOne({ where: { user_email } });
       if (checkUser) return res.json({ err: "email exist!" });
-    }catch (err) {
+    } catch (err) {
       console.log(err);
       return res.json({ error: "something error" });
     }
@@ -83,20 +83,20 @@ class AuthController {
       let user = await User.findOne({
         where: { remember_token: refreshToken },
       });
-      if (!user) return res.json({ msg: "refresh token not exist" });
+      if (!user) return res.json({ message: "refresh token not exist" });
       // check token
       try {
         // check expired
         let { exp } = jwt_decode(refreshToken);
         if (Date.now() >= exp * 1000)
-          return res.json({ msg: "refresh token expired" });
+          return res.json({ message: "refresh token expired" });
 
         // verify token
         let decoded = jwt.verify(
           refreshToken,
           process.env.REFRESH_TOKEN_SECRET
         );
-        if (!decoded) return res.json({ err: "token invalid" });
+        if (!decoded) return res.json({ message: "token invalid" });
 
         // generate token and refresh token
         let payload = {
@@ -106,7 +106,7 @@ class AuthController {
         };
 
         let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-          expiresIn: "2h",
+          expiresIn: "30s",
         });
         console.log(user);
         return res.json({
