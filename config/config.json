@@ -15,10 +15,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "cdtn_web_truyen",
-    "host": "127.0.0.1",
+    "username": "q8IikfevId",
+    "password": "Y1MEIKO8OF",
+    "database": "q8IikfevId",
+    "host": "remotemysql.com",
     "dialect": "mysql",
     "timezone": "Asia/Ho_Chi_Minh"
   }
