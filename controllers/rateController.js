@@ -1,8 +1,16 @@
 const { Rate } = require('../models')
 class RateController {
     async index(req, res) {
+        let { user_id, comic_id } = req.query
+
+        const query = { where: {} }
+
+        if (user_id) query.where.user_uuid = user_uuid
+        if (comic_id) query.where.comic_id = +comic_id
+
         try {
-            let rates = await Rate.findAll()
+            console.log(query)
+            let rates = await Rate.findAll(query)
             return res.json({
                 msg: "success",
                 data: rates
@@ -17,6 +25,7 @@ class RateController {
     async create(req, res) {
         let { rate_star, comic_id } = req.body
         let user_uuid = req.user_uuid
+        if (rate_star < 1 || rate_star > 5) return res.json({ code: 0, name: "", message: "star invalid" })
         try {
             let currentRate = await Rate.findOne({
                 where: {
@@ -61,6 +70,20 @@ class RateController {
         } catch (error) {
 
         }
+    }
+
+    async sumRate(req, res) {
+        let { comic_id } = req.query
+        if (!comic_id) return res.status(404).send("not found")
+        let query = { where: { comic_id: +comic_id } }
+        try {
+            let sum_rate = await Rate.sum("rate_star", query)
+            return res.json({ code: 200, name: "", message: "", data: { comic_id, sum_rate } })
+        } catch (error) {
+            console.log(error)
+            return res.json({ code: 0, name: "", message: "Something error!" })
+        }
+
     }
 }
 

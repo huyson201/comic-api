@@ -120,7 +120,7 @@ class UserController {
         msg: "Change password success",
         data: user,
       });
-    } catch (err) {}
+    } catch (err) { }
   }
 
   async getFollows(req, res) {

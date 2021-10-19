@@ -262,6 +262,8 @@ class ComicController {
     }
 
 
+
+
 }
 
 const comicController = new ComicController
