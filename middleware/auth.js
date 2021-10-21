@@ -27,6 +27,7 @@ class AuthMiddleware {
             try {
                 let decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
                 req.user_uuid = decoded.user_uuid
+                req.user_role = decoded.user_role
                 return next()
             }
             catch (err) {

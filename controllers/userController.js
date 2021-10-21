@@ -1,6 +1,7 @@
+require('dotenv').config()
 const { User, sequelize, Follow } = require("../models");
 const bcrypt = require("bcrypt");
-
+const { uploadFile } = require('../util/s3')
 class UserController {
   //get all users
   async index(req, res) {
@@ -88,14 +89,14 @@ class UserController {
   async update(req, res) {
     let data = req.body;
     let uuid = req.user_uuid;
-    console.log(uuid);
     try {
       let user = await User.findByPk(uuid);
-      if (data.user_role && user.user_role === "user")
-        return res.json({ err: `Don't have permission` });
+      if (!user) return res.status(404).json({ code: 404, name: "Not found", message: "User not found!" })
+      let result = await uploadFile(req.file)
+      data.user_image = process.env.APP_HOST + '/images/' + result.key
       user = await user.update(data);
       return res.json({
-        msg: "Update success",
+        message: "Update success",
         data: user,
       });
     } catch (err) {
