@@ -61,7 +61,7 @@ class CategoryController {
         ]
 
         try {
-            let categories = await Category.findAll(query)
+            let categories = await Category.findAndCountAll(query)
             return res.json({
                 msg: "success",
                 data: categories
