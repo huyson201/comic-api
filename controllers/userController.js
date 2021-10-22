@@ -93,7 +93,7 @@ class UserController {
       let user = await User.findByPk(uuid);
       if (!user) return res.status(404).json({ code: 404, name: "Not found", message: "User not found!" })
       let result = await uploadFile(req.file)
-      data.user_image = process.env.APP_HOST + '/images/' + result.key
+      data.user_image = process.env.ROOT + '/images/' + result.key
       user = await user.update(data);
       return res.json({
         message: "Update success",

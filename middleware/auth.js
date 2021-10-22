@@ -37,7 +37,28 @@ class AuthMiddleware {
 
         }
 
-        return res.status(401).json({ code: 401, name: 'Access denied', message: 'Invalid token provided.' });
+        return res.status(401).send('Invalid token provided.');
+    }
+
+    async checkResetPasswordToken(req, res, next) {
+        let token
+
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            token = req.headers.authorization.split(' ')[1]
+            try {
+                let decoded = jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET)
+                req.user_uuid = decoded.user_uuid
+                req.user_role = decoded.user_role
+                return next()
+            }
+            catch (err) {
+                return res.status(400).send(err.message)
+            }
+
+
+        }
+
+        return res.status(401).send('Invalid token provided.');
     }
 }
 

@@ -1,8 +1,13 @@
 const { Follow } = require("../models")
 class FollowController {
     async index(req, res) {
+        let { user_uuid, comic_id } = req.query
+        const query = { where: {} }
+        if (user_uuid) query.where.user_uuid = user_uuid
+        if (comic_id) query.where.comic_id = +comic_id
+
         try {
-            let follows = await Follow.findAndCountAll()
+            let follows = await Follow.findAndCountAll(query)
             return res.status(200).json({
                 code: 200,
                 name: "",

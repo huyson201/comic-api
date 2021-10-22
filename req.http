@@ -14,8 +14,8 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"ngoc2@gmail.com",
-    "user_password": "123456"
+    "user_email" :"huyson203@gmail.com",
+    "user_password": "son123"
 }
 
 ### refresh token
@@ -73,6 +73,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI2Z
    "new_password": "asdasd123"
 }
 
+
+### get follows
+GET http://localhost:3001/api/follows
+
+### get follows by user_uuid, comic-id
+GET http://localhost:3001/api/follows?user_uuid=1e69aa36-db41-454b-99e9-2c07f11eaa8f&comic_id=2
+
+
+
 ### create follow
 
 POST http://localhost:3001/api/follows
@@ -83,7 +92,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIyO
     "comic_id": 1
 }
 
-### delete a follows
+### delete a follow
 DELETE  http://localhost:3001/api/follows
 content-type: application/json 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwNDoxNjo1MS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xNVQwMToyNDo0Ni4wMDBaIiwiaWF0IjoxNjM0MzA0MDA3LCJleHAiOjE2MzQzMTEyMDd9.mRBHtphdpi76ooCQDdPpfySkcNwB2jfglh6PeDOsD1c
@@ -120,3 +129,33 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 
 ### get comments of comic
 GET http://localhost:3001/api/comics/1/comments?offset=2&limit=1&sort=updatedAt:desc
+
+### admin 
+GET http://localhost:3001/api/admin/comics
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJuZ3V5ZW4gZG9hbiBodXkgc29uICIsInVzZXJfZW1haWwiOiJodXlzb24yMDNAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Imh0cHA6Ly9sb2NhbGhvc3Q6MzAwMS9pbWFnZXMvZTdlNDA2ZDIxNjZjYmVmNzExZTNmNGQ0ZGYwZWM3ZGYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMTRUMDQ6MTY6NTEuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjFUMTI6MjQ6MDMuMDAwWiIsImlhdCI6MTYzNDgyMTE4OCwiZXhwIjoxNjM0ODI4Mzg4fQ.L0JNBJD7BdvhGTy7XyrxAYqhzGn5eh6r_1vw2FyxkK4
+
+###
+POST http://localhost:3001/api/forget-password
+Content-Type:  application/json
+
+{
+    "user_email": "huyson203@gmail.com"
+}
+
+###
+POST http://localhost:3001/api/forget-password/confirm
+Content-Type:  application/json
+
+{
+    "reset_password_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX2VtYWlsIjoiaHV5c29uMjAzQGdtYWlsLmNvbSIsInVzZXJfcm9sZSI6ImFkbWluIiwiaWF0IjoxNjM0ODcyNjk3LCJleHAiOjE2MzQ4NzI3Mjd9.AdPQE9LwpDfbNAupLTFs2A69apUGIPf3WiSdV00coLM"
+}
+
+###
+POST http://localhost:3001/api/reset-password
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX2VtYWlsIjoiaHV5c29uMjAzQGdtYWlsLmNvbSIsInVzZXJfcm9sZSI6ImFkbWluIiwiaWF0IjoxNjM0ODcyNjk3LCJleHAiOjE2MzQ4NzI3Mjd9.AdPQE9LwpDfbNAupLTFs2A69apUGIPf3WiSdV00coLM
+
+{
+    "new_password": "son123",
+    "confirm_password": "son123"
+}
