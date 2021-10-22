@@ -106,7 +106,7 @@ class AuthController {
         };
 
         let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-          expiresIn: "30s",
+          expiresIn: "2h",
         });
         console.log(user);
         return res.json({
