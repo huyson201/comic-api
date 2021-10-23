@@ -57,7 +57,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 }
 
 ### get rate by user id and comic_id
-GET http://localhost:3001/api/rates?user_uud=1e69aa36-db41-454b-99e9-2c07f11eaa8f&comic_id=1
+GET http://localhost:3001/api/rates?user_uud=0b0e4b06-b805-42d1-9049-5d25178825c1&comic_id=2
 
 ### calculate sum rate of comic
 GET http://localhost:3001/api/rates/sum?comic_id=1
