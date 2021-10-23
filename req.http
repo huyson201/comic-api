@@ -14,8 +14,8 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"huyson203@gmail.com",
-    "user_password": "son123"
+    "user_email" :"ngoc2@gmail.com",
+    "user_password": "123456"
 }
 
 ### refresh token
@@ -49,7 +49,7 @@ content-type: application/json
 ### create rating
 POST http://localhost:3001/api/rates
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwNDoxNjo1MS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xOVQxMzozNzoxOS4wMDBaIiwiaWF0IjoxNjM0NjUwODU3LCJleHAiOjE2MzQ2NTgwNTd9.oiqMyWmBA3R0rtNB_-u9DmeS0qdfQkxdYGGbqt7qZDE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1NjNlMGI4ZS02ZWFiLTQxZWEtOTUxYi0yYzVkZGJhMDE4NjQiLCJ1c2VyX25hbWUiOiJuZ29jMzQiLCJ1c2VyX2VtYWlsIjoibmdvYzJAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Im51bGwiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yMlQxNToxNDo0NC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yM1QwNzoxMjo0My4wMDBaIiwiaWF0IjoxNjM0OTczODI5LCJleHAiOjE2MzQ5ODEwMjl9.kIMhxrnloACGrRnvCP8Cu_FDscUCYMNp3PVl8xSzTnQ
 
 {
     "rate_star" : 5,
