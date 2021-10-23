@@ -1,15 +1,16 @@
 const { Rate } = require('../models')
 class RateController {
     async index(req, res) {
-        let { user_id, comic_id } = req.query
+        let { user_uuid, comic_id } = req.query
 
         const query = { where: {} }
 
-        if (user_id) query.where.user_uuid = user_uuid
-        if (comic_id) query.where.comic_id = +comic_id
+        if (user_uuid) query.where.user_uuid = user_uuid
+
+        if (comic_id) query.where = { ...query.where, comic_id: +comic_id }
 
         try {
-            console.log(query)
+
             let rates = await Rate.findAll(query)
             return res.json({
                 msg: "success",

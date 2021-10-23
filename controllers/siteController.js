@@ -39,6 +39,7 @@ class SiteController {
             return res.status(200).json({ code: 200, message: info.response, data: true })
 
         } catch (error) {
+            // console.log(error)
             return res.status(400).send(error.message)
         }
     }

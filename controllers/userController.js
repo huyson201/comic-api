@@ -38,20 +38,18 @@ class UserController {
   async getById(req, res) {
     let userId = req.params.uuid;
     let uuid = req.user_uuid;
-    console.log(uuid);
-    console.log(userId);
+
     try {
       let user = await User.findByPk(uuid);
-      if (!user)
-        return res.json({ err: "You mustn't login before accessing!" });
+      if (!user) return res.status(400).send('user not found!');
 
-      if (user.user_role !== "admin" && uuid !== userId)
-        return res.json({ err: "You don't have permission!" });
+      if (user.user_role !== "admin" && uuid !== userId) return res.status(403).send("You don't have permission!");
 
       let userDetail = await User.findByPk(userId);
+
       res.json({
         msg: "Success",
-        data: user,
+        data: userDetail,
       });
     } catch (err) {
       res.send(err);
@@ -91,16 +89,20 @@ class UserController {
     let uuid = req.user_uuid;
     try {
       let user = await User.findByPk(uuid);
-      if (!user) return res.status(404).json({ code: 404, name: "Not found", message: "User not found!" })
-      let result = await uploadFile(req.file)
-      data.user_image = process.env.ROOT + '/images/' + result.key
+      if (!user) return res.status(400).send('User not found!')
+
+      if (req.file) {
+        let result = await uploadFile(req.file)
+        data.user_image = process.env.ROOT + '/images/' + result.key
+      }
+
       user = await user.update(data);
       return res.json({
         message: "Update success",
         data: user,
       });
     } catch (err) {
-      return res.send(err);
+      return res.status(400).send(err.message);
     }
   }
 

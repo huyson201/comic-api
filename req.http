@@ -16,6 +16,8 @@ content-type: application/json
 {
     "user_email" :"ngoc2@gmail.com",
     "user_password": "123456"
+    "user_email" :"huyson202@gmail.com",
+    "user_password": "asdasd"
 }
 
 ### refresh token
@@ -50,14 +52,16 @@ content-type: application/json
 POST http://localhost:3001/api/rates
 content-type: application/json 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1NjNlMGI4ZS02ZWFiLTQxZWEtOTUxYi0yYzVkZGJhMDE4NjQiLCJ1c2VyX25hbWUiOiJuZ29jMzQiLCJ1c2VyX2VtYWlsIjoibmdvYzJAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Im51bGwiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yMlQxNToxNDo0NC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yM1QwNzoxMjo0My4wMDBaIiwiaWF0IjoxNjM0OTczODI5LCJleHAiOjE2MzQ5ODEwMjl9.kIMhxrnloACGrRnvCP8Cu_FDscUCYMNp3PVl8xSzTnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJmNjdiM2IwZS04NDdjLTRlMmQtYWZhZC01Mzg4NGQ1MWExMTAiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMkBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yM1QwOToxNDo0My4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yM1QwOToxNDo0My4wMDBaIiwiaWF0IjoxNjM0OTgwNDk2LCJleHAiOjE2MzQ5ODc2OTZ9.f-GT5QrnvuHLBY6SybBy5vA3HuvWgRcn1Y_3mV-_ZVg
 
 {
-    "rate_star" : 5,
+    "rate_star" : 4,
     "comic_id": 1
 }
 
 ### get rate by user id and comic_id
 GET http://localhost:3001/api/rates?user_uud=0b0e4b06-b805-42d1-9049-5d25178825c1&comic_id=2
+GET http://localhost:3001/api/rates?user_uuid=1e69aa36-db41-454b-99e9-2c07f11eaa8f&comic_id=1
 
 ### calculate sum rate of comic
 GET http://localhost:3001/api/rates/sum?comic_id=1
@@ -134,7 +138,7 @@ GET http://localhost:3001/api/comics/1/comments?offset=2&limit=1&sort=updatedAt:
 GET http://localhost:3001/api/admin/comics
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJuZ3V5ZW4gZG9hbiBodXkgc29uICIsInVzZXJfZW1haWwiOiJodXlzb24yMDNAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Imh0cHA6Ly9sb2NhbGhvc3Q6MzAwMS9pbWFnZXMvZTdlNDA2ZDIxNjZjYmVmNzExZTNmNGQ0ZGYwZWM3ZGYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMTRUMDQ6MTY6NTEuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjFUMTI6MjQ6MDMuMDAwWiIsImlhdCI6MTYzNDgyMTE4OCwiZXhwIjoxNjM0ODI4Mzg4fQ.L0JNBJD7BdvhGTy7XyrxAYqhzGn5eh6r_1vw2FyxkK4
 
-###
+###https://love-comic-api.herokuapp.com/api/
 POST http://localhost:3001/api/forget-password
 Content-Type:  application/json
 
@@ -142,7 +146,7 @@ Content-Type:  application/json
     "user_email": "huyson203@gmail.com"
 }
 
-###
+### 
 POST http://localhost:3001/api/forget-password/confirm
 Content-Type:  application/json
 

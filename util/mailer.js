@@ -1,13 +1,28 @@
 const nodemailer = require('nodemailer')
 require('dotenv').config()
+const { google } = require('googleapis')
+
+const config = require('../config/mailer.js')
+
+const auth2Client = new google.auth.OAuth2(config.clientId, config.clientSecret, config.redirectUrl)
+auth2Client.setCredentials({ refresh_token: config.refreshToken })
 
 
-const sendMailResetPassword = (link, toEmail) => {
+
+const sendMailResetPassword = async (link, toEmail) => {
+
+    const accessToken = await auth2Client.getAccessToken()
+
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: "coronaviruss.covid2021@gmail.com",
-            pass: "coronaviruss",
+            type: "OAuth2",
+            user: config.user,
+            clientId: config.clientId,
+            clientSecret: config.clientSecret,
+            refreshToken: config.refreshToken,
+            accessToken: accessToken,
+
         },
 
     })
@@ -17,9 +32,11 @@ const sendMailResetPassword = (link, toEmail) => {
 
 
 
+
     return new Promise((resolve, reject) => {
         transporter.sendMail(option, (err, info) => {
             if (err) {
+                console.log(err)
                 reject(err)
                 return
             }
