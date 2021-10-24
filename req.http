@@ -14,8 +14,6 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"ngoc2@gmail.com",
-    "user_password": "123456"
     "user_email" :"huyson202@gmail.com",
     "user_password": "asdasd"
 }
