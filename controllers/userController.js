@@ -98,7 +98,7 @@ class UserController {
 
       user = await user.update(data);
       return res.json({
-        message: "Update success",
+        msg: "Update success",
         data: user,
       });
     } catch (err) {
@@ -168,7 +168,7 @@ class UserController {
       return res.status(200).json({
         code: 200,
         name: "",
-        message: "success",
+        msg: "success",
         data: user,
       });
     } catch (error) {
