@@ -5,16 +5,16 @@ const jwt = require('jsonwebtoken');
 class AuthMiddleware {
 
     async checkFiled(req, res, next) {
-        if (Object.keys(req.body).length === 0) return res.status(202).json({ message: "require email and password" })
+        if (Object.keys(req.body).length === 0) return res.status(400).send("require email and password")
         let { user_email, user_password } = req.body
 
-        if (!user_email || user_email === "") return res.status(202).json({ message: "email required!" })
+        if (!user_email || user_email === "") return res.status(400).send("email required!")
 
-        if (!validator.isEmail(user_email)) return res.status(202).json({ message: "email not valid" })
+        if (!validator.isEmail(user_email)) return res.status(400).send("email not valid")
 
-        if (!user_password || user_password === "") return res.status(202).json({ message: "password required!" })
+        if (!user_password || user_password === "") return res.status(400).send("password required!")
 
-        if (!validator.isLength(user_password, { min: 6 })) return res.status(202).json({ message: "require password length > 6 " })
+        if (!validator.isLength(user_password, { min: 6 })) return res.status(400).send("require password length > 6 ")
 
         return next()
     }
@@ -26,12 +26,13 @@ class AuthMiddleware {
             token = req.headers.authorization.split(' ')[1]
             try {
                 let decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-                req.user_uuid = decoded.user_uuid
-                req.user_role = decoded.user_role
+                let user = await User.findByPk(decoded.user_uuid)
+                if (!user) return res.status(401).send("user not found")
+                req.user = user
                 return next()
             }
             catch (err) {
-                return res.send(err)
+                return res.status(400).send(err.message)
             }
 
 
@@ -47,8 +48,9 @@ class AuthMiddleware {
             token = req.headers.authorization.split(' ')[1]
             try {
                 let decoded = jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET)
-                req.user_uuid = decoded.user_uuid
-                req.user_role = decoded.user_role
+                let user = await User.findByPk(decoded.user_uuid)
+                if (!user) return res.status(401).send("user not found")
+                req.user = user
                 return next()
             }
             catch (err) {

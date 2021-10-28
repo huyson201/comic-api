@@ -5,11 +5,17 @@ const {
 const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
+    // user logout
+    async logout() {
+      this.setDataValue("remember_token", "")
+      await this.save()
+    }
+
+    async changePassword(newPassword) {
+      this.user_password = newPassword
+      await this.save()
+    }
     static associate({ Comic }) {
       // define association here
       this.belongsToMany(Comic, {
@@ -38,9 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false,
       validate: {
-        isEmail: { msg: "email invalid" },
-        notEmpty: { msg: "email is empty" },
-        notNull: { msg: "email is null" }
+        isEmail: { message: "email invalid" },
+        notEmpty: { message: "email is empty" },
+        notNull: { message: "email is null" }
       }
     },
     user_password: {
@@ -48,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         min: 6,
-        notNull: { msg: "email is null" },
-        notEmpty: { msg: "email is empty" }
+        notNull: { message: "email is null" },
+        notEmpty: { message: "email is empty" }
       },
       set(value) {
         let hash = bcrypt.hashSync(value, 10)

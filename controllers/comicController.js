@@ -32,20 +32,20 @@ class ComicController {
         try {
 
             let comics = await Comic.findAndCountAll(query)
-            return res.json({
-                msg: "success",
+            return res.status(200).json({
+                message: "success",
                 data: comics
             })
 
         }
         catch (err) {
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
     }
 
     async getById(req, res) {
         let comicId = req.params.id
-        if (!comicId) return res.status(404).send("not found")
+        if (!comicId) return res.status(404).send("comic id not found")
         let query = {}
         query.include = [
             {
@@ -65,19 +65,19 @@ class ComicController {
             let comic = await Comic.findByPk(comicId, query)
 
             return res.status(202).json({
-                msg: 'success',
+                message: 'success',
                 data: comic
             })
         }
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
     }
 
     async searchByKey(req, res) {
         let { q, offset, limit, sort } = req.query
-        if (!q) return res.json({ err: "keyword not found!" })
+        if (!q) return res.status(400).json({ err: "keyword not found!" })
         const query = {}
         query.where = {
             comic_name: {
@@ -96,14 +96,14 @@ class ComicController {
 
         try {
             let comics = await Comic.findAndCountAll(query)
-            return res.json({
-                msg: "success",
+            return res.status(200).json({
+                message: "success",
                 data: comics
             })
         }
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
     }
 
@@ -150,12 +150,12 @@ class ComicController {
 
         try {
             let comics = await Comic.findAndCountAll(query)
-            return res.json(comics)
+            return res.status(200).json(comics)
         }
 
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
     }
 
@@ -178,13 +178,13 @@ class ComicController {
             let comic = await Comic.findByPk(comicId, query)
 
             return res.status(202).json({
-                msg: 'success',
+                message: 'success',
                 data: comic
             })
         }
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
     }
 
@@ -204,13 +204,13 @@ class ComicController {
             let comic = await Comic.findByPk(comicId, query)
 
             return res.status(202).json({
-                msg: 'success',
+                message: 'success',
                 data: comic
             })
         }
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err)
         }
     }
 
@@ -220,7 +220,7 @@ class ComicController {
         const queryComic = {}
         const queryComment = {}
 
-        if (!comic_id) return res.status(404).json({ code: 404, name: "", message: "not found!" })
+        if (!comic_id) return res.status(404).send("comic id not found")
         queryComic.attributes = ["comic_id", 'comic_name']
         queryComic.subQuery = false
 
@@ -256,7 +256,7 @@ class ComicController {
             })
         } catch (error) {
             console.log(error)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
 
     }

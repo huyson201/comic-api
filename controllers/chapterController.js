@@ -17,23 +17,23 @@ class ChapterController {
     try {
       let chapters = await Chapter.findAll();
 
-      return res.json({
-        msg: "success",
+      return res.status(200).json({
+        message: "success",
         data: chapters,
       });
     } catch (err) {
       console.log(err);
-      return res.send(err);
+      return res.status(400).send(err.message);
     }
   }
 
   async getById(req, res) {
     let chapterId = req.params.id;
-    if (!chapterId) return res.status(404).json({ msg: "not found" });
+    if (!chapterId) return res.status(400).send('chapter id not found');
     try {
       let chapter = await Chapter.findByPk(chapterId);
-      return res.json({
-        msg: "success",
+      return res.status(200).json({
+        message: "success",
         data: chapter,
       });
     } catch (err) {

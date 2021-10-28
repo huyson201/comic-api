@@ -35,8 +35,8 @@ class AuthController {
       // save refresh token to user
       user.update({ remember_token: refreshToken });
 
-      return res.json({
-        msg: "login successfully",
+      return res.status(200).json({
+        message: "login successfully",
         data: {
           user,
           token: token,
@@ -45,7 +45,7 @@ class AuthController {
       });
     } catch (err) {
       console.log(err);
-      return res.json({ error: "something error" });
+      return res.status(400).send("something error");
     }
   }
 
@@ -71,7 +71,7 @@ class AuthController {
       });
 
       return res.status(201).json({
-        msg: "Success",
+        message: "Success",
         data: user,
       });
 
@@ -83,9 +83,18 @@ class AuthController {
 
   // logout
   logout(req, res) {
-    return res.json({
-      msg: "logout successfully",
-    });
+    // get user
+    let user = req.user
+
+    if (!user) return res.status(401).send("unauthorized")
+
+    try {
+      user.logout()
+      return res.status(204).send("login success!")
+    } catch (error) {
+      return res.status(400).send(error.message)
+    }
+
   }
 
   async refreshToken(req, res) {
@@ -121,18 +130,18 @@ class AuthController {
           expiresIn: "2h",
         });
         console.log(user);
-        return res.json({
-          msg: "success",
+        return res.status(200).json({
+          message: "success",
           data: user,
           token: token,
         });
       } catch (err) {
         // err
         console.log(err);
-        return res.json({ err: "error verify refresh token" });
+        return res.status(err.message)
       }
     } catch (err) {
-      return res.json({ err: "something error!" });
+      return res.status(err.message)
     }
   }
 }

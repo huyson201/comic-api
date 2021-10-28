@@ -22,8 +22,8 @@ class FollowController {
 
     async create(req, res) {
         let { comic_id } = req.body
-        let user_uuid = req.user_uuid
-        let query = {}
+        let user_uuid = req.user.user_uuid
+
 
         try {
             let existFollow = await Follow.findOne({ where: { user_uuid, comic_id } })
@@ -44,7 +44,7 @@ class FollowController {
                 data: follow
             })
         } catch (error) {
-            return res.send(error)
+            return res.status(400).send(error.message)
         }
     }
 

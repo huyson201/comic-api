@@ -36,17 +36,20 @@ const uploadFileDrive = (file) => {
 
 //* update file Drive
 const updateFileDrive = (fileId, file) => {
+    let filePath = __dirname + "/../uploads/" + file.filename
+    let stream = fs.createReadStream(filePath)
+
     return new Promise(async (resolve, reject) => {
         try {
             let res = await drive.files.update({
                 fileId: fileId,
                 requestBody: {
-                    name: 'testimage1.png',
+                    name: file.filename,
                     mimeType: 'image/*,audio/*,video/*'
                 },
                 media: {
-                    mimeType: 'image/*',
-                    body: file
+                    mimeType: file.mimetype,
+                    body: stream
                 }
             })
 

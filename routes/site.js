@@ -9,11 +9,12 @@ const upload = multer({ dest: 'uploads/' })
 
 siteRoute.get('/', siteController.index)
 siteRoute.get('/images/:key', siteController.getImage)
+
 siteRoute.post('/upload', upload.single('image'), siteController.uploadDrive)
 
 siteRoute.post('/login', authMiddleware.checkFiled, authController.login)
 siteRoute.post('/register', authMiddleware.checkFiled, authController.register)
-siteRoute.post('/logout', authController.logout)
+siteRoute.post('/logout', authMiddleware.checkUserToken, authController.logout)
 siteRoute.post('/refresh-token', authController.refreshToken)
 siteRoute.post('/forget-password', siteController.forgetPassword)
 siteRoute.post('/forget-password/confirm', siteController.forgetPasswordConfirm)

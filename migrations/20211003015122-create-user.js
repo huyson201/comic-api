@@ -16,9 +16,9 @@ module.exports = {
         unique: true,
         allowNull: false,
         validate: {
-          isEmail: { msg: "email invalid" },
-          notEmpty: { msg: "email is empty" },
-          notNull: { msg: "email is null" }
+          isEmail: { message: "email invalid" },
+          notEmpty: { message: "email is empty" },
+          notNull: { message: "email is null" }
         }
       },
       user_password: {
@@ -26,8 +26,8 @@ module.exports = {
         allowNull: false,
         validate: {
           min: 6,
-          notNull: { msg: "email is null" },
-          notEmpty: { msg: "email is empty" }
+          notNull: { message: "email is null" },
+          notEmpty: { message: "email is empty" }
         }
       },
       user_image: {

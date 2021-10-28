@@ -1,9 +1,9 @@
 ###https://love-comic-api.herokuapp.com/api/
-POSThttps://love-comic-api.herokuapp.com/api/register
+POST http://localhost:3001/api/register
 content-type: application/json
 
 {
-    "user_email": "huyson203@gmail.com",
+    "user_email": "huyson201@gmail.com",
     "user_password": "asdasd",
     "confirm_password": "asdasd",
     "user_name": "huy son"
@@ -11,14 +11,18 @@ content-type: application/json
 }
 
 ###
-POST https://love-comic-api.herokuapp.com/api/login
+POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"huyson202@gmail.com",
-    "user_email" :"huyson204@gmail.com",
-    "user_password": "asdasd"
+    "user_email" :"huyson201@gmail.com",
+    "user_password": "asdasd123"
 }
+
+### logout
+POST http://localhost:3001/api/logout
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIzMDQ3OGM1Yi1kZTFiLTQ5YmEtODFjNC1kZTg4ZTBjMTQxNGIiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzoxNTo0NS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzoxNTo0NS4wMDBaIiwiaWF0IjoxNjM1NDI2OTU0LCJleHAiOjE2MzU0MzQxNTR9.iX4BM7MFbxWB1dE5U8b4YRlJXX-3XwQzAtx6mqQSVU4
 
 ### refresh token
 POST http://localhost:3001/api/refresh-token
@@ -37,10 +41,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI2Z
 ### update user
 PATCH http://localhost:3001/api/users/
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1NjNlMGI4ZS02ZWFiLTQxZWEtOTUxYi0yYzVkZGJhMDE4NjQiLCJ1c2VyX25hbWUiOiJuZ29jIiwidXNlcl9lbWFpbCI6Im5nb2MyQGdtYWlsLmNvbSIsInVzZXJfaW1hZ2UiOm51bGwsInVzZXJfcm9sZSI6InVzZXIiLCJjcmVhdGVkQXQiOiIyMDIxLTEwLTIyVDE1OjE0OjQ0LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTEwLTIyVDE1OjE3OjI2LjAwMFoiLCJpYXQiOjE2MzQ5MTU4NjIsImV4cCI6MTYzNDkyMzA2Mn0.-fkSttomZ0xWwu7esmryXDTlvbHrjS5N31Vdha43io8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIzMDQ3OGM1Yi1kZTFiLTQ5YmEtODFjNC1kZTg4ZTBjMTQxNGIiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzoxNTo0NS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzoxNzozMy4wMDBaIiwiaWF0IjoxNjM1NDI3NzAxLCJleHAiOjE2MzU0MzQ5MDF9.TdwhecR6YypahOyWKDC9oTONDgMAFb7U7fjuOjZP6yk
 
 {
-    "user_name": "ngoc2"
+    "user_name": "son 123"
 }
 
 ### get comics of category
@@ -52,7 +56,6 @@ content-type: application/json
 POST http://localhost:3001/api/rates
 content-type: application/json 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1NjNlMGI4ZS02ZWFiLTQxZWEtOTUxYi0yYzVkZGJhMDE4NjQiLCJ1c2VyX25hbWUiOiJuZ29jMzQiLCJ1c2VyX2VtYWlsIjoibmdvYzJAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Im51bGwiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yMlQxNToxNDo0NC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yM1QwNzoxMjo0My4wMDBaIiwiaWF0IjoxNjM0OTczODI5LCJleHAiOjE2MzQ5ODEwMjl9.kIMhxrnloACGrRnvCP8Cu_FDscUCYMNp3PVl8xSzTnQ
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJmNjdiM2IwZS04NDdjLTRlMmQtYWZhZC01Mzg4NGQ1MWExMTAiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMkBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yM1QwOToxNDo0My4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yM1QwOToxNDo0My4wMDBaIiwiaWF0IjoxNjM0OTgwNDk2LCJleHAiOjE2MzQ5ODc2OTZ9.f-GT5QrnvuHLBY6SybBy5vA3HuvWgRcn1Y_3mV-_ZVg
 
 {
     "rate_star" : 4,
@@ -61,7 +64,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJmN
 
 ### get rate by user id and comic_id
 GET http://localhost:3001/api/rates?user_uud=0b0e4b06-b805-42d1-9049-5d25178825c1&comic_id=2
-GET http://localhost:3001/api/rates?user_uuid=1e69aa36-db41-454b-99e9-2c07f11eaa8f&comic_id=1
 
 ### calculate sum rate of comic
 GET http://localhost:3001/api/rates/sum?comic_id=1
@@ -70,7 +72,7 @@ GET http://localhost:3001/api/rates/sum?comic_id=1
 ### change password
 patch http://localhost:3001/api/users/change-password
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI2ZGM0ZjJiOC0yNGU0LTRhNjMtYjJmZC0zYTlkNzJjOGU3MDYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwMjo1MToyNC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xNFQwMjo1MToyNC4wMDBaIiwiaWF0IjoxNjM0MTc5OTQzLCJleHAiOjE2MzQxODcxNDN9.swZ6n6HFzMC3GPSX2wOqQ72g079ROJhaue1tC9NcBwM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI5Yzc1MjZmNy1jYzIyLTQyMzMtYmE4NC0xNzFiNDdjNDY0MzIiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzo0NTozMC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzo0NTozMC4wMDBaIiwiaWF0IjoxNjM1NDI4NzM1LCJleHAiOjE2MzU0MzU5MzV9.PaYtFugykZmIi2ydnS63ZmVxO5SNiF2c4JY974OiZeU
 
 {
    "old_password": "asdasd",

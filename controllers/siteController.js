@@ -67,7 +67,7 @@ class SiteController {
         if (new_password !== confirm_password) return res.status(400).send("Confirm password invalid")
 
         try {
-            let user = await User.findByPk(req.user_uuid)
+            let user = req.user
             if (!user) return res.status(400).send("User not found")
 
             user.user_password = new_password

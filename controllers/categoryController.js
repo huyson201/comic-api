@@ -4,8 +4,8 @@ class CategoryController {
     async index(req, res) {
         try {
             let categories = await Category.findAll()
-            return res.json({
-                msg: "success",
+            return res.status(200).json({
+                message: "success",
                 data: categories
             })
         }
@@ -17,17 +17,17 @@ class CategoryController {
     }
     async getById(req, res) {
         let id = req.params.id
-        if (!id) return res.json({ msg: "not found" })
+        if (!id) return res.status(400).json({ message: "id not found" })
         try {
             let category = await Category.findByPk(id)
-            return res.json({
-                msg: "success",
+            return res.status(200).json({
+                message: "success",
                 data: category
             })
         }
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
 
     }
@@ -62,14 +62,14 @@ class CategoryController {
 
         try {
             let categories = await Category.findAndCountAll(query)
-            return res.json({
-                msg: "success",
+            return res.status(200).json({
+                message: "success",
                 data: categories
             })
         }
         catch (err) {
             console.log(err)
-            return res.send(err)
+            return res.status(400).send(err.message)
         }
 
     }
