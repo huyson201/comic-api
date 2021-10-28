@@ -4,6 +4,7 @@ const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const { sendMailResetPassword } = require('../util/mailer')
 const { RESET_PASSWORD_HOST } = require('../constants')
+const googleDrive = require('../util/google-drive.js')
 class SiteController {
     index(req, res) {
         res.send('welcome')
@@ -39,7 +40,7 @@ class SiteController {
             return res.status(200).json({ code: 200, message: info.response, data: true })
 
         } catch (error) {
-            // console.log(error)
+
             return res.status(400).send(error.message)
         }
     }
@@ -54,7 +55,7 @@ class SiteController {
             return res.status(200).json({ code: 200, name: "", message: "Confirm success", data: true })
         }
         catch (error) {
-            console.log(error)
+
             return res.status(400).send(error.message)
         }
 
@@ -77,6 +78,23 @@ class SiteController {
         } catch (error) {
             return res.status(400).send(error.message)
         }
+    }
+
+    async uploadDrive(req, res) {
+
+        let file = req.file
+        if (!file) return res.send(400).send('file not found')
+
+        try {
+            let result = await googleDrive.uploadFileDrive(file)
+            let imgId = result.data.id
+            let link = await googleDrive.generatePublicUrl(imgId)
+            return res.json({ data: link.data })
+        }
+        catch (error) {
+            return res.status(400).send(error.message)
+        }
+
     }
 
 

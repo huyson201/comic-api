@@ -4,8 +4,12 @@ const siteController = require('../controllers/siteController')
 const authController = require('../controllers/authController')
 const authMiddleware = require('../middleware/auth')
 
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 siteRoute.get('/', siteController.index)
 siteRoute.get('/images/:key', siteController.getImage)
+siteRoute.post('/upload', upload.single('image'), siteController.uploadDrive)
 
 siteRoute.post('/login', authMiddleware.checkFiled, authController.login)
 siteRoute.post('/register', authMiddleware.checkFiled, authController.register)

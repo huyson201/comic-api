@@ -1,13 +1,7 @@
-const nodemailer = require('nodemailer')
 require('dotenv').config()
-const { google } = require('googleapis')
-
-const config = require('../config/mailer.js')
-
-const auth2Client = new google.auth.OAuth2(config.clientId, config.clientSecret, config.redirectUrl)
-auth2Client.setCredentials({ refresh_token: config.refreshToken })
-
-
+const nodemailer = require('nodemailer')
+const config = require('../config/google.js')
+const oauth2Client = require('./google-auth')
 
 const sendMailResetPassword = async (link, toEmail) => {
 
@@ -48,7 +42,7 @@ const sendMailResetPassword = async (link, toEmail) => {
 const createMailOption = (fromMail, toMail, subject, textContent, htmlContent) => {
 
     return {
-        from: fromMail,
+        from: `LoveComic <${fromMail}>`,
         to: toMail,
         subject: subject,
         text: textContent,
