@@ -32,4 +32,14 @@ function getCategories(url) {
     return dataJson
 }
 
-module.exports = { getComics, getCategories }
+function searchParams(url) {
+    let search = new URL(url).searchParams
+    return {
+        get(param) {
+            return search.get(param)
+        }
+    }
+}
+
+
+module.exports = { getComics, getCategories, searchParams }

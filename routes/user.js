@@ -1,20 +1,17 @@
 const express = require('express')
 const userRoute = express.Router()
 const userController = require('../controllers/userController')
-const authMiddleware = require('../middleware/auth')
+
 
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
-userRoute.get('/', authMiddleware.checkUserToken, userController.index)
-userRoute.get('/:uuid', authMiddleware.checkUserToken, userController.getById)
-
+userRoute.get('/:uuid', userController.getById)
+userRoute.patch('/change-password', userController.changePassword)
+userRoute.patch('/', upload.single('user_image'), userController.update)
 userRoute.get('/:uuid/follows', userController.getFollows)
 
-userRoute.post('/', userController.create)
 
-userRoute.patch('/', authMiddleware.checkUserToken, upload.single('user_image'), userController.update)
 
-userRoute.patch('/change-password', authMiddleware.checkUserToken, userController.changePassword)
 
 module.exports = userRoute

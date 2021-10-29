@@ -97,7 +97,7 @@ const generatePublicUrl = (fileId) => {
 
             let res = await drive.files.get({
                 fileId: fileId,
-                fields: 'webViewLink, webContentLink, thumbnailLink',
+                fields: 'webViewLink, webContentLink, thumbnailLink, id',
             })
             console.log(res.data)
             resolve(res)

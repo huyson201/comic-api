@@ -1,5 +1,8 @@
-const { Comic, sequelize, Comment } = require('../models')
+const { Comic, sequelize, Comment, ComicCategory } = require('../models')
 const { Op } = require("sequelize");
+const googleDrive = require('../util/google-drive');
+
+
 class ComicController {
 
     async index(req, res) {
@@ -269,6 +272,42 @@ class ComicController {
 
     }
 
+    async create(req, res) {
+        let { comic_name, comic_desc, comic_author, comic_status, comic_view, categories } = req.body
+        const t = await sequelize.transaction()
+
+        try {
+
+            let comic_img = ''
+
+            //upload comic img
+            if (req.file) {
+                let result = await googleDrive.uploadFileDrive(req.file)
+                let fileId = result.data.id
+                let link = await googleDrive.generatePublicUrl(fileId)
+                let data = link.data
+                comic_img = data.thumbnailLink.replace(/=s(\w)*$/i, '') + `?id=${link.data.id}`
+            }
+
+
+            // create comic
+            let comic = await Comic.create({ comic_name, comic_desc, comic_author, comic_status, comic_view: +comic_view, comic_img }, { transaction: t })
+
+            // create comic's categories
+            for (let index in categories) {
+                let category = +categories[index]
+                await ComicCategory.create({ comic_id: comic.comic_id, category_id: category })
+            }
+
+            await t.commit()
+
+            return res.status(200).json({ data: comic, message: "Create comic successfully!" })
+
+        } catch (error) {
+            await t.rollback()
+            return res.status(400).send(error.message)
+        }
+    }
 
 
 

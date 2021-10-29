@@ -45,11 +45,9 @@ class UserController {
 
       if (user.user_role !== "admin" && uuid !== userId) return res.status(403).send("You don't have permission!");
 
-      let userDetail = await User.findByPk(userId);
-
       res.status(200).json({
         message: "Success",
-        data: userDetail,
+        data: user,
       });
     } catch (err) {
       res.status(400).send(err.message);
@@ -61,6 +59,7 @@ class UserController {
     // get request data
     let { user_email, user_password, user_name, user_role } = req.body;
 
+    console.log(req.body)
     if (!user_role) user_role = "user";
 
     // create a new user
@@ -78,7 +77,6 @@ class UserController {
         data: user,
       });
     } catch (err) {
-      console.log(err);
       return res.status(400).send(err.message);
     }
   }
@@ -96,7 +94,7 @@ class UserController {
         data.user_image = process.env.ROOT + '/images/' + result.key
       }
 
-      user = await user.update(data);
+      user = await user.update({ ...data, user_role: undefined });
       return res.status(200).json({
         message: "Update success",
         data: user,

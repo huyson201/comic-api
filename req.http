@@ -3,7 +3,7 @@ POST http://localhost:3001/api/register
 content-type: application/json
 
 {
-    "user_email": "huyson200@gmail.com",
+    "user_email": "huyson201@gmail.com",
     "user_password": "asdasd",
     "confirm_password": "asdasd",
     "user_name": "huy son"
@@ -15,7 +15,7 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"huyson200@gmail.com",
+    "user_email" :"huyson201@gmail.com",
     "user_password": "asdasd"
 }
 
@@ -35,7 +35,7 @@ content-type: application/json
 ### get detail users
 GET http://localhost:3001/api/users/6dc4f2b8-24e4-4a63-b2fd-3a9d72c8e706
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI2ZGM0ZjJiOC0yNGU0LTRhNjMtYjJmZC0zYTlkNzJjOGU3MDYiLCJ1c2VyX25hbWUiOiJOZ3V5ZW4gRG9hbiBIdXkgU29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwMjo1MToyNC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xNFQwMzoyNjoxMy4wMDBaIiwiaWF0IjoxNjM0MTgxOTg4LCJleHAiOjE2MzQxODkxODh9.E31aAiRlhdkCbQOqy9Nf1CmtFqRxlq92IDurTw3T12Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjlUMTI6MDA6MTAuMDAwWiIsImlhdCI6MTYzNTUwODgzNCwiZXhwIjoxNjM1NTE2MDM0fQ.FacwlbBhjNGTRvstWCfBYR1Ei0wPEG_0-DOY6QR7Z3Q
 
 
 ### update user
@@ -46,6 +46,24 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIzM
 {
     "user_name": "son 123"
 }
+
+### get all users
+
+GET http://localhost:3001/api/admin/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsImlhdCI6MTYzNTUwNjY0MiwiZXhwIjoxNjM1NTEzODQyfQ.JeU9fKN6nz_AMBm7UFgDCLCnll17g7sq0srksgQdKVc
+
+### create a user by admin
+POST http://localhost:3001/api/admin/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsImlhdCI6MTYzNTUwNjY0MiwiZXhwIjoxNjM1NTEzODQyfQ.JeU9fKN6nz_AMBm7UFgDCLCnll17g7sq0srksgQdKVc
+Content-Type: application/json
+
+{
+   "user_email": "huyson203@gmail.com",
+    "user_password": "asdasd",
+    "user_name": "huy son",
+    "user_role": "admin"
+}
+
 
 ### get comics of category
 GET http://localhost:3001/api/categories/2/comics
@@ -107,6 +125,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
    "follow_id": 4
 }
 
+### get follow by user
+GET http://localhost:3001/api/users/8f7a3a66-bf06-4b00-90e0-295ee84a6eb6/follows
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjlUMTI6MDA6MTAuMDAwWiIsImlhdCI6MTYzNTUwODgzNCwiZXhwIjoxNjM1NTE2MDM0fQ.FacwlbBhjNGTRvstWCfBYR1Ei0wPEG_0-DOY6QR7Z3Q
 
 ### create a comment
 POST  http://localhost:3001/api/comments
