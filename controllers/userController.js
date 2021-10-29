@@ -27,7 +27,7 @@ class UserController {
       let users = await User.findAll(query);
 
       return res.status(200).json({
-        msg: "success",
+        message: "success",
         data: users,
       });
     } catch (err) {
@@ -48,7 +48,7 @@ class UserController {
       let userDetail = await User.findByPk(userId);
 
       res.status(200).json({
-        msg: "Success",
+        message: "Success",
         data: userDetail,
       });
     } catch (err) {
@@ -66,11 +66,7 @@ class UserController {
     // create a new user
     try {
       let checkUser = await User.findOne({ where: { user_email } });
-      if (checkUser) return res.status(200).json({
-        message: "Email exist!"
-      });
-
-      // res.status(400).send("Email exist!");
+      if (checkUser) return res.status(400).send("Email đã tồn tại!");
       let user = await User.create({
         user_email,
         user_password,
@@ -78,7 +74,7 @@ class UserController {
         user_role,
       });
       return res.status(200).json({
-        msg: "Success",
+        message: "Success",
         data: user,
       });
     } catch (err) {
@@ -102,7 +98,7 @@ class UserController {
 
       user = await user.update(data);
       return res.status(200).json({
-        msg: "Update success",
+        message: "Update success",
         data: user,
       });
     } catch (err) {
@@ -120,13 +116,13 @@ class UserController {
 
       // verify password
       let verifyPassword = bcrypt.compareSync(old_password, user.user_password);
-      if (!verifyPassword) res.status(400).send("Old password invalid");
+      if (!verifyPassword) res.status(400).send("Mật khẩu cũ không đúng !");
 
       // change password
       user.changePassword(new_password)
 
       return res.status(200).json({
-        msg: "Change password success",
+        message: "Change password success",
         data: user,
       });
 
@@ -177,7 +173,7 @@ class UserController {
       return res.status(200).json({
         code: 200,
         name: "",
-        msg: "success",
+        message: "success",
         data: user,
       });
     } catch (error) {

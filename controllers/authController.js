@@ -10,12 +10,12 @@ class AuthController {
     try {
       // get user by email
       let user = await User.findOne({ where: { user_email } });
-      if (user === null) return res.json({ message: "email not exist!" });
+      if (user === null) return res.status(400).send("Email không tồn tại!");
 
       // check password
       let compare = bcrypt.compareSync(user_password, user.user_password);
 
-      if (!compare) return res.json({ message: "password not invalid" });
+      if (!compare) return  res.status(400).send("Sai mật khẩu!");
 
       // generate token and refresh token
       let payload = {
@@ -36,7 +36,7 @@ class AuthController {
       user.update({ remember_token: refreshToken });
 
       return res.status(200).json({
-        msg: "login successfully",
+        message: "Đăng nhập thành công",
         data: {
           user,
           token: token,
@@ -55,14 +55,11 @@ class AuthController {
     let { user_email, user_password, user_name, confirm_password } = req.body;
 
     if (!confirm_password || confirm_password !== user_password)
-      return res.json({
-        message: "confirm password invalid",
-      });
-
+      return res.status(400).send("Mật khẩu không khớp!");
     // create a new user
     try {
       let checkUser = await User.findOne({ where: { user_email } });
-      if (checkUser) return res.status(400).send("email exist");
+      if (checkUser) return res.status(400).send("Email đã tồn tại");
 
       let user = await User.create({
         user_email,
@@ -71,7 +68,7 @@ class AuthController {
       });
 
       return res.status(201).json({
-        msg: "Success",
+        message: "Đăng ký thành công",
         data: user,
       });
 
@@ -90,7 +87,7 @@ class AuthController {
 
     try {
       user.logout()
-      return res.status(204).send("logout success!")
+      return res.status(204).send("Đăng xuất thành công!")
     } catch (error) {
       return res.status(400).send(error.message)
     }
@@ -104,20 +101,20 @@ class AuthController {
       let user = await User.findOne({
         where: { remember_token: refreshToken },
       });
-      if (!user) return res.json({ message: "refresh token not exist" });
+      if (!user) return res.status(400).send("RefreshToken không tồn tại");
       // check token
       try {
         // check expired
         let { exp } = jwt_decode(refreshToken);
         if (Date.now() >= exp * 1000)
-          return res.json({ message: "refresh token expired" });
+          return res.status(400).send("RefreshToken đã hết hạn")
 
         // verify token
         let decoded = jwt.verify(
           refreshToken,
           process.env.REFRESH_TOKEN_SECRET
         );
-        if (!decoded) return res.json({ message: "token invalid" });
+        if (!decoded) return res.status(400).send("Token không đúng");
 
         // generate token and refresh token
         let payload = {
