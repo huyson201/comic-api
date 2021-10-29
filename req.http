@@ -3,7 +3,7 @@ POST http://localhost:3001/api/register
 content-type: application/json
 
 {
-    "user_email": "huyson201@gmail.com",
+    "user_email": "huyson200@gmail.com",
     "user_password": "asdasd",
     "confirm_password": "asdasd",
     "user_name": "huy son"
@@ -15,8 +15,8 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"huyson201@gmail.com",
-    "user_password": "asdasd123"
+    "user_email" :"huyson200@gmail.com",
+    "user_password": "asdasd"
 }
 
 ### logout
@@ -111,13 +111,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 ### create a comment
 POST  http://localhost:3001/api/comments
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwNDoxNjo1MS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xNVQwMToyNDo0Ni4wMDBaIiwiaWF0IjoxNjM0MzA0MDA3LCJleHAiOjE2MzQzMTEyMDd9.mRBHtphdpi76ooCQDdPpfySkcNwB2jfglh6PeDOsD1c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIzN2NjZTVhMC0wMTNiLTRkOGUtYmE4OC00Yjc0OTQ3ZDEyODIiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMEBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yOVQwMzozMTozOC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yOVQwMzozMTozOC4wMDBaIiwiaWF0IjoxNjM1NDc4MzA1LCJleHAiOjE2MzU0ODU1MDV9.527qWW5ouLFoS2RZyqmBcld9mJr8jIbVcJ8n6tW1XkA
 
 {
    "comic_id": 1,
-   "comment_content": "comment content...",
+   "comment_content": "comment reply 2",
    "parent_id": 2
-
+   
 }
 
 
