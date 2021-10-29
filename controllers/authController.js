@@ -36,7 +36,7 @@ class AuthController {
       user.update({ remember_token: refreshToken });
 
       return res.status(200).json({
-        message: "login successfully",
+        msg: "login successfully",
         data: {
           user,
           token: token,
@@ -71,7 +71,7 @@ class AuthController {
       });
 
       return res.status(201).json({
-        message: "Success",
+        msg: "Success",
         data: user,
       });
 
@@ -90,7 +90,7 @@ class AuthController {
 
     try {
       user.logout()
-      return res.status(204).send("login success!")
+      return res.status(204).send("logout success!")
     } catch (error) {
       return res.status(400).send(error.message)
     }

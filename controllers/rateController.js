@@ -13,7 +13,7 @@ class RateController {
 
             let rates = await Rate.findAll(query)
             return res.status(200).json({
-                message: "success",
+                msg: "success",
                 data: rates
             })
         }
@@ -37,7 +37,7 @@ class RateController {
             if (currentRate) {
                 currentRate.update({ rate_star: rate_star })
                 return res.status(200).json({
-                    message: "success",
+                    msg: "success",
                     data: currentRate
                 })
             }
@@ -45,7 +45,7 @@ class RateController {
             let rate = await Rate.create({ rate_star, user_uuid, comic_id })
 
             return res.status(200).json({
-                message: "success",
+                msg: "success",
                 data: rate
             })
         }
@@ -65,7 +65,7 @@ class RateController {
             return res.status(200).json({
                 code: 200,
                 name: "",
-                message: "success",
+                msg: "success",
                 data: rate
             })
         } catch (error) {

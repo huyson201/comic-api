@@ -27,7 +27,7 @@ class UserController {
       let users = await User.findAll(query);
 
       return res.status(200).json({
-        message: "success",
+        msg: "success",
         data: users,
       });
     } catch (err) {
@@ -48,7 +48,7 @@ class UserController {
       let userDetail = await User.findByPk(userId);
 
       res.status(200).json({
-        message: "Success",
+        msg: "Success",
         data: userDetail,
       });
     } catch (err) {
@@ -66,7 +66,11 @@ class UserController {
     // create a new user
     try {
       let checkUser = await User.findOne({ where: { user_email } });
-      if (checkUser) return res.status(400).send("Email exist!");
+      if (checkUser) return res.status(200).json({
+        message: "Email exist!"
+      });
+
+      // res.status(400).send("Email exist!");
       let user = await User.create({
         user_email,
         user_password,
@@ -74,7 +78,7 @@ class UserController {
         user_role,
       });
       return res.status(200).json({
-        message: "Success",
+        msg: "Success",
         data: user,
       });
     } catch (err) {
@@ -98,7 +102,7 @@ class UserController {
 
       user = await user.update(data);
       return res.status(200).json({
-        message: "Update success",
+        msg: "Update success",
         data: user,
       });
     } catch (err) {
@@ -122,7 +126,7 @@ class UserController {
       user.changePassword(new_password)
 
       return res.status(200).json({
-        message: "Change password success",
+        msg: "Change password success",
         data: user,
       });
 
@@ -173,7 +177,7 @@ class UserController {
       return res.status(200).json({
         code: 200,
         name: "",
-        message: "success",
+        msg: "success",
         data: user,
       });
     } catch (error) {
