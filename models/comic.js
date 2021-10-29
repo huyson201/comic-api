@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Chapter, { foreignKey: "comic_id", as: "chapters" })
 
       this.hasMany(Comment, { as: 'comments', foreignKey: "comic_id" })
+
     }
     toJSON() {
       return { ...this.get() }

@@ -221,8 +221,6 @@ class ComicController {
         const queryComment = {}
 
         if (!comic_id) return res.status(404).send("comic id not found")
-        queryComic.attributes = ["comic_id", 'comic_name']
-        queryComic.subQuery = false
 
         if (offset) queryComment.offset = +offset
         if (limit) queryComment.limit = +limit
@@ -238,25 +236,35 @@ class ComicController {
             {
                 association: 'subComments',
                 require: true,
-                nested: true
+                nested: true,
+                include: [
+                    {
+                        association: "user_info",
+                        attributes: ["user_name", "user_email", "user_image"]
+                    }
+                ]
+            },
+            {
+                association: "user_info",
+                attributes: ["user_name", "user_email", "user_image"]
             }
         ]
 
 
         try {
-            let comic = (await Comic.findByPk(comic_id, queryComic)).toJSON()
+
+
             let comments = await Comment.findAll(queryComment)
-            comic.comments = comments
 
             return res.status(200).json({
                 code: 200,
                 name: "",
                 message: "success",
-                data: comic
+                data: comments
             })
         } catch (error) {
             console.log(error)
-            return res.status(400).send(err.message)
+            return res.status(400).send(error.message)
         }
 
     }

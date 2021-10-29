@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: "comic_id"
       })
     }
+
+    toJSON() {
+      return { ...this.get() }
+    }
   };
   Category.init({
     category_id: {

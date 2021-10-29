@@ -16,7 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 route(app)
 
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+    await sequelize.sync()
     console.log('server is running on port ' + PORT)
 })
 

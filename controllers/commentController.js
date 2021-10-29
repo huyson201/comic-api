@@ -18,6 +18,7 @@ class CommentController {
     async create(req, res) {
         let { comic_id, comment_content, parent_id } = req.body
         let user_uuid = req.user.user_uuid
+
         if (!parent_id) parent_id = 0
 
         try {

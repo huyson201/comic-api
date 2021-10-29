@@ -5,7 +5,8 @@
     "database": "cdtn_web_truyen",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "timezone": "Asia/Ho_Chi_Minh"
+    "timezone": "Asia/Ho_Chi_Minh",
+    "logging": false
   },
   "test": {
     "username": "root",
