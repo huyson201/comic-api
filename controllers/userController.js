@@ -84,7 +84,6 @@ class UserController {
   // update user
   async update(req, res) {
     let data = req.body;
-
     try {
       let user = req.user;
       if (!user) return res.status(400).send('User not found!')
@@ -94,12 +93,16 @@ class UserController {
         data.user_image = process.env.ROOT + '/images/' + result.key
       }
 
+      console.log(typeof data.user_image);
+      console.log(data.user_image.length);
+
       user = await user.update({ ...data, user_role: undefined });
       return res.status(200).json({
         message: "Update success",
         data: user,
       });
     } catch (err) {
+      console.log(err.message);
       return res.status(400).send(err.message);
     }
   }
