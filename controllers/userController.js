@@ -101,9 +101,6 @@ class UserController {
 
       }
 
-      console.log(typeof data.user_image);
-      console.log(data.user_image.length);
-
       user = await user.update({ ...data, user_role: undefined });
 
       return res.status(200).json({
