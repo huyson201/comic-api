@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const jwt_decode = require("jwt-decode");
+const { generateToken } = require('../util')
 class AuthController {
   //login function
   async login(req, res) {
@@ -15,22 +15,14 @@ class AuthController {
       // check password
       let compare = bcrypt.compareSync(user_password, user.user_password);
 
-      if (!compare) return  res.status(400).send("Sai mật khẩu!");
+      if (!compare) return res.status(400).send("Sai mật khẩu!");
 
       // generate token and refresh token
-      let payload = {
-        ...user.dataValues,
-        user_password: undefined,
-        remember_token: undefined,
-      };
 
-      let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "2h",
-      });
+      let token = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "2h")
 
-      let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: "7d",
-      });
+      let refreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "7d")
+
 
       // save refresh token to user
       user.update({ remember_token: refreshToken });
@@ -45,7 +37,7 @@ class AuthController {
       });
     } catch (err) {
       console.log(err);
-      return res.status(400).send("something error");
+      return res.status(400).send(err.message);
     }
   }
 
@@ -103,42 +95,27 @@ class AuthController {
       });
       if (!user) return res.status(400).send("RefreshToken không tồn tại");
       // check token
-      try {
-        // check expired
-        let { exp } = jwt_decode(refreshToken);
-        if (Date.now() >= exp * 1000)
-          return res.status(400).send("RefreshToken đã hết hạn")
 
-        // verify token
-        let decoded = jwt.verify(
-          refreshToken,
-          process.env.REFRESH_TOKEN_SECRET
-        );
-        if (!decoded) return res.status(400).send("Token không đúng");
 
-        // generate token and refresh token
-        let payload = {
-          ...user.dataValues,
-          user_password: undefined,
-          remember_token: undefined,
-        };
+      // verify token
+      let decoded = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      if (!decoded) return res.status(400).send("Token không đúng");
 
-        let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-          expiresIn: "2h",
-        });
-        console.log(user);
-        return res.status(200).json({
-          message: "success",
-          data: user,
-          token: token,
-        });
-      } catch (err) {
-        // err
-        console.log(err);
-        return res.status(err.message)
-      }
+      // generate token and refresh token
+
+
+      let token = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "2h")
+
+      return res.status(200).json({
+        message: "success",
+        token: token,
+      });
+
     } catch (err) {
-      return res.status(err.message)
+      return res.status(400).send(err.message)
     }
   }
 }

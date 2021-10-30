@@ -55,6 +55,7 @@ const updateFileDrive = (fileId, file) => {
 
 
             console.log(res.data)
+            fs.unlinkSync(filePath)
             resolve(res)
         }
         catch (error) {

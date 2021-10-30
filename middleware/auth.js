@@ -1,6 +1,5 @@
 const validator = require('validator');
 const { User } = require('../models')
-const jwt_decode = require('jwt-decode')
 const jwt = require('jsonwebtoken');
 class AuthMiddleware {
 

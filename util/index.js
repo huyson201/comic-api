@@ -1,4 +1,6 @@
 const fs = require('fs')
+const googleDrive = require('./google-drive');
+const { generateToken } = require('./auth-token')
 
 function getComics(url) {
     let dataJson
@@ -41,5 +43,19 @@ function searchParams(url) {
     }
 }
 
+function uploadFile(file) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let result = await googleDrive.uploadFileDrive(file)
+            let fileId = result.data.id
+            let link = await googleDrive.generatePublicUrl(fileId)
+            let data = link.data
+            imgUrl = data.thumbnailLink.replace(/=s(\w)*$/i, '') + `?id=${link.data.id}`
+            resolve(imgUrl)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 
-module.exports = { getComics, getCategories, searchParams }
+module.exports = { getComics, getCategories, searchParams, uploadFile, generateToken, googleDrive }

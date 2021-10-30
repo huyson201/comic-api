@@ -1,6 +1,6 @@
 const { Comic, sequelize, Comment, ComicCategory } = require('../models')
 const { Op } = require("sequelize");
-const googleDrive = require('../util/google-drive');
+const { uploadFile } = require('../util');
 
 
 class ComicController {
@@ -275,18 +275,14 @@ class ComicController {
     async create(req, res) {
         let { comic_name, comic_desc, comic_author, comic_status, comic_view, categories } = req.body
         const t = await sequelize.transaction()
-
         try {
 
             let comic_img = ''
 
             //upload comic img
             if (req.file) {
-                let result = await googleDrive.uploadFileDrive(req.file)
-                let fileId = result.data.id
-                let link = await googleDrive.generatePublicUrl(fileId)
-                let data = link.data
-                comic_img = data.thumbnailLink.replace(/=s(\w)*$/i, '') + `?id=${link.data.id}`
+                let imgUrl = await uploadFile(req.file)
+                comic_img = imgUrl
             }
 
 
