@@ -93,6 +93,7 @@ class UserController {
         if (user.user_image && user.user_image !== '') {
           let fileId = searchParams(user.user_image).get('id')
           googleDrive.updateFileDrive(fileId, req.file)
+          data.user_image = user.user_image
         }
         else {
           let imgUrl = await uploadFile(req.file)

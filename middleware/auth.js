@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 class AuthMiddleware {
 
     async checkFiled(req, res, next) {
-        if (Object.keys(req.body).length === 0) return res.status(400).send("require email and password")
+        if (req.body && Object.keys(req.body).length === 0) return res.status(400).send("require email and password")
         let { user_email, user_password } = req.body
 
         if (!user_email || user_email === "") return res.status(400).send("email required!")
