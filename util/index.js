@@ -1,6 +1,6 @@
 const fs = require('fs')
 const googleDrive = require('./google-drive');
-const { generateToken } = require('./auth-token')
+const { generateToken, generateRefreshToken } = require('./auth-token')
 
 function getComics(url) {
     let dataJson
@@ -58,4 +58,4 @@ function uploadFile(file) {
     })
 }
 
-module.exports = { getComics, getCategories, searchParams, uploadFile, generateToken, googleDrive }
+module.exports = { getComics, getCategories, searchParams, uploadFile, generateToken, generateRefreshToken, googleDrive }

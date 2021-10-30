@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { generateToken } = require('../util')
+const { generateToken, generateRefreshToken } = require('../util')
 class AuthController {
   //login function
   async login(req, res) {
@@ -21,7 +21,7 @@ class AuthController {
 
       let token = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "2h")
 
-      let refreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "7d")
+      let refreshToken = generateRefreshToken(user, process.env.REFRESH_TOKEN_SECRET, "7d")
 
 
       // save refresh token to user

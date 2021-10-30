@@ -11,12 +11,12 @@ content-type: application/json
 }
 
 ###
-POST https://love-comic-api.herokuapp.com/api/login
+POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"a@gmail.com",
-    "user_password": "123456"
+    "user_email" :"huyson201@gmail.com",
+    "user_password": "asdasd"
 }
 
 ### logout
@@ -29,7 +29,7 @@ POST http://localhost:3001/api/refresh-token
 content-type: application/json 
 
 {
-    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjlUMTE6MjM6MjcuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjlUMTM6NDA6NTUuMDAwWiIsImlhdCI6MTYzNTU1NDI0NiwiZXhwIjoxNjM2MTU5MDQ2fQ.I3OOAIy_MpLxaE1ijzA0-uh6HRBTHrqsQRCF8H4RA4g"
+    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJpYXQiOjE2MzU1NzQwNTksImV4cCI6MTYzNjE3ODg1OX0.pUE3VM6vAIRrmhC-8ptb4JeqaDv5Y7ULfY7PTU5dlLg"
 }
 
 ### get detail users
