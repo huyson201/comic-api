@@ -11,7 +11,7 @@ class RateController {
 
         try {
 
-            let rates = await Rate.findAll(query)
+            let rates = await Rate.findAndCountAll(query)
             return res.status(200).json({
                 message: "success",
                 data: rates
@@ -79,7 +79,9 @@ class RateController {
         let query = { where: { comic_id: +comic_id } }
         try {
             let sum_rate = await Rate.sum("rate_star", query)
-            return res.status(200).json({ code: 200, name: "", message: "", data: { comic_id, sum_rate } })
+            let count = await Rate.count(query)
+
+            return res.status(200).json({ code: 200, name: "", message: "", data: { comic_id, sum_rate, count } })
         } catch (error) {
             console.log(error)
             return res.status(400).send(error.message)
