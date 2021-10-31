@@ -2,7 +2,7 @@ require('dotenv').config()
 const { User, sequelize, Follow } = require("../models");
 const bcrypt = require("bcrypt");
 const { uploadFile, googleDrive, searchParams } = require('../util');
-
+const { updateScope } = require('../permissions/user')
 class UserController {
   //get all users
   async index(req, res) {
@@ -41,10 +41,7 @@ class UserController {
     let userId = req.params.uuid;
 
     try {
-      let user = req.user;
-      if (!user) return res.status(400).send('user not found!');
-
-      if (user.user_role !== "admin" && user.user_uuid !== userId) return res.status(403).send("You don't have permission!");
+      let user = await User.findByPk(userId)
 
       res.status(200).json({
         message: "Success",
@@ -86,8 +83,9 @@ class UserController {
   async update(req, res) {
     let data = req.body;
     try {
-      let user = req.user;
-      if (!user) return res.status(400).send('User not found!')
+
+      let userId = req.body.user_uuid
+      let user = await User.findByPk(userId)
 
       if (req.file) {
         if (user.user_image && user.user_image !== '') {
@@ -102,7 +100,7 @@ class UserController {
 
       }
 
-      user = await user.update({ ...data, user_role: undefined });
+      await updateScope(req.user.user_role, user, data)
 
       return res.status(200).json({
         message: "Update success",

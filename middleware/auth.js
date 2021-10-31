@@ -61,6 +61,14 @@ class AuthMiddleware {
 
         return res.status(401).send('Invalid token provided.');
     }
+
+    authRole(permissions = []) {
+        return (req, res, next) => {
+            if (permissions.includes(req.user.user_role)) return next()
+
+            return res.status(403).send("Don't have permission asdasd")
+        }
+    }
 }
 
 const authMiddleware = new AuthMiddleware

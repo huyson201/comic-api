@@ -9,8 +9,8 @@ const commentRoute = require('./comment')
 const authMiddleware = require('../middleware/auth')
 const adminUserRoute = require("./admin/user")
 const adminComicRoute = require("./admin/comic")
-const { checkAdminRole } = require('../middleware/admin')
 
+const role = require('../config/role')
 function route(app) {
 
     // user route
@@ -25,7 +25,7 @@ function route(app) {
     app.use('/api/users', authMiddleware.checkUserToken, userRoute)
 
     // admin route
-    app.use('/api/admin', authMiddleware.checkUserToken, checkAdminRole)
+    app.use('/api/admin', authMiddleware.checkUserToken, authMiddleware.authRole([role.ADMIN]))
     app.use('/api/admin/users', adminUserRoute)
     app.use('/api/admin/comics', adminComicRoute)
 

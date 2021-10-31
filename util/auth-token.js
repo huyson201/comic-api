@@ -1,11 +1,8 @@
 const jwt = require("jsonwebtoken");
 const generateToken = (user, secret, expiresIn) => {
     let payload = {
-        ...user.dataValues,
-        user_password: undefined,
-        remember_token: undefined,
-        createdAt: undefined,
-        updatedAt: undefined
+        user_uuid: user.dataValues.user_uuid,
+        user_role: user.dataValues.user_role
     };
 
     let token = jwt.sign(payload, secret, {

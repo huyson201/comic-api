@@ -28,19 +28,6 @@ class RateController {
         let user_uuid = req.user.user_uuid
         if (rate_star < 1 || rate_star > 5) return res.status(400).send("star invalid")
         try {
-            let currentRate = await Rate.findOne({
-                where: {
-                    user_uuid: user_uuid
-                }
-            })
-
-            if (currentRate) {
-                currentRate.update({ rate_star: rate_star })
-                return res.status(200).json({
-                    message: "success",
-                    data: currentRate
-                })
-            }
 
             let rate = await Rate.create({ rate_star, user_uuid, comic_id })
 
@@ -87,6 +74,22 @@ class RateController {
             return res.status(400).send(error.message)
         }
 
+    }
+
+    async update(req, res) {
+        let rate_id = req.params.id
+        let rate_star = req.body.rate_star
+        try {
+            let rate = await Rate.findOne({ where: { rate_id, user_uuid: req.body.user_uuid } })
+            if (!rate) return res.status(400).send('Rate not found!')
+
+            rate = await rate.update({ rate_star })
+
+            return res.status(200).json({ data: rate, message: "update rate successfully" })
+
+        } catch (error) {
+            return res.status(error.message)
+        }
     }
 }
 

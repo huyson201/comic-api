@@ -1,5 +1,5 @@
 ###https://love-comic-api.herokuapp.com/api/
-POST http://localhost:3001/api/register
+POST https://love-comic-api.herokuapp.com/api/register
 content-type: application/json
 
 {
@@ -33,10 +33,9 @@ content-type: application/json
 }
 
 ### get detail users
-GET http://localhost:3001/api/users/8f7a3a66-bf06-4b00-90e0-295ee84a6eb6
+GET http://localhost:3001/api/users/9aeff779-df69-4b4b-ada2-bd568ea751e1
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX25hbWUiOiJzb24gMTIzIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjoiIiwidXNlcl9yb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzU2NTU4NjMsImV4cCI6MTYzNTY2MzA2M30.3kK4KVkPi08qkJUaKIh2V3YQidj7nC7SvxQ478ue4E8
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI3Y2Y4MWE2Ni1mYjZlLTQyNmEtYmIyOC1jZmI3MDkyYjg2NDgiLCJ1c2VyX25hbWUiOiJNcy4gTWlsdG9uIEJhaHJpbmdlciIsInVzZXJfZW1haWwiOiJSb3J5LlVwdG9uNjhAeWFob28uY29tIiwidXNlcl9pbWFnZSI6ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBT0VBQUFEaENBTUFBQUFKYlNKSUFBQUFiMUJNVkVYLy8vOEFBQUNLaW9ybTV1Wi9mMy9zN096WjJkbGhZV0dFaElTSGg0Zmg0ZUh5OHZLQ2dvTEh4OGYxOWZWNWVYbGNYRnlnb0tCSVNFaSt2cjZ3c0xBVEV4TW1KaWFUazVNYkd4dERRME0wTkRSVFUxTnpjM1BTMHRLdHJhMmJtNXN0TFMwaUlpSk9UazY2dXJwcmEydTlsUWsrQUFBRlZrbEVRVlI0bk8yZGkxcmlRQXhHRyIsInVzZXJfcm9sZSI6InVzZXIiLCJpYXQiOjE2MzU2NTk1NjMsImV4cCI6MTYzNTY2Njc2M30.F1nPtNwgCH7Wuw_6JzsQff7igjPxZwVY1dejVTnQVNI
 
 ### update user
 PATCH http://localhost:3001/api/users/
@@ -66,8 +65,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1N
 GET http://localhost:3001/api/rates?comic_id=1
 
 ### calculate sum rate of comic
-GET https://love-comic-api.herokuapp.com/api/rates/sum?comic_id=1
+GET http://localhost:3001/api/rates/sum?comic_id=1
 
+### update rate have id = 1
+PATCH http://localhost:3001/api/rates/1
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNTY2NDQyMCwiZXhwIjoxNjM1NjcxNjIwfQ.36mhMh_iumFfwUCO6tX_PPDg9MuBQAQ_9eOUMo8EINI
+
+{
+    "user_uuid": "8f7a3a66-bf06-4b00-90e0-295ee84a6eb6",
+    "rate_star": 5
+}
 
 ### change password
 patch http://localhost:3001/api/users/change-password

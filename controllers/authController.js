@@ -57,6 +57,7 @@ class AuthController {
         user_email,
         user_password,
         user_name,
+        user_role: 'user'
       });
 
       return res.status(201).json({
