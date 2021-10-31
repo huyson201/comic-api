@@ -137,8 +137,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 {
    "comic_id": 1,
    "comment_content": "comment content...",
-   
-
 }
 
 ### get comments of comic
