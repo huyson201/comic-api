@@ -1,6 +1,6 @@
 const { Comic, sequelize, Comment, ComicCategory } = require('../models')
 const { Op } = require("sequelize");
-const { uploadFile } = require('../util');
+const { uploadFile, googleDrive, searchParams } = require('../util');
 
 
 class ComicController {
@@ -305,6 +305,82 @@ class ComicController {
         }
     }
 
+    async update(req, res) {
+        let data = req.body
+        let { categories } = req.body
+        let comic_id = req.params.id
+
+        const t = await sequelize.transaction()
+
+        try {
+            let comic = await Comic.findByPk(comic_id)
+
+            let comic_img = ''
+
+
+            //upload comic img
+            if (req.file) {
+                if (comic.comic_img && comic.comic_img !== '') {
+                    let fileId = searchParams(comic.comic_img).get('id')
+                    googleDrive.updateFileDrive(fileId, req.file)
+                    data.comic_img = comic.comic_img
+                }
+                else {
+                    let imgUrl = await uploadFile(req.file)
+                    data.comic_img = imgUrl
+                }
+
+            }
+
+            if (categories) {
+                categories = [...new Set(categories)]
+
+                await ComicCategory.destroy({ where: { comic_id } })
+
+                let categoryData = []
+
+                for (let index in categories) {
+                    let category_id = +categories[index]
+                    categoryData.push({ comic_id, category_id })
+                }
+
+                await ComicCategory.bulkCreate(categoryData, { transaction: t })
+                delete data.categories
+            }
+
+
+            // update comic
+
+            await comic.update({ ...data }, { transaction: t })
+
+
+
+
+            await t.commit()
+
+            return res.status(200).json({ data: comic, message: "Update comic successfully!" })
+
+        } catch (error) {
+            console.log(error)
+            await t.rollback()
+            return res.status(400).send(error.message)
+        }
+    }
+
+    async delete(req, res) {
+        let comic_id = req.params.id
+        const t = await sequelize.transaction()
+        try {
+            await Comic.destroy({ where: { comic_id } }, { transaction: t })
+            await ComicCategory.destroy({ where: { comic_id } }, { transaction: t })
+            t.commit()
+            return res.status(204).send()
+        } catch (error) {
+            console.log(error)
+            t.rollback()
+            return res.status(400).send(error.message)
+        }
+    }
 
 
 }

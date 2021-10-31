@@ -16,7 +16,7 @@ const canUpdate = (user, userId) => {
 const updateScope = (role, user, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (role.ADMIN) {
+            if (role.ADMIN && user.user_role !== role.ADMIN) {
                 await user.update(data)
             }
             else {

@@ -16,7 +16,6 @@ route(app)
 
 
 server.listen(PORT, async () => {
-    await sequelize.sync()
     console.log('server is running on port ' + PORT)
 })
 

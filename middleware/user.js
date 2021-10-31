@@ -11,7 +11,7 @@ class UserMiddleware {
 
     authUpdate(req, res, next) {
 
-        if (!canUpdate(req.user, req.body.user_uuid)) {
+        if (!canUpdate(req.user, req.params.uuid)) {
             return res.status(403).send("Don't have permission!")
         }
 

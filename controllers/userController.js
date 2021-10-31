@@ -84,7 +84,7 @@ class UserController {
     let data = req.body;
     try {
 
-      let userId = req.body.user_uuid
+      let userId = req.params.uuid
       let user = await User.findByPk(userId)
 
       if (req.file) {

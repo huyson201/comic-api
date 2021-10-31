@@ -12,7 +12,7 @@ userRoute.get('/:uuid', authMiddleware.checkUserToken, authMiddleware.authRole([
 
 userRoute.patch('/change-password', userController.changePassword)
 
-userRoute.patch('/', authMiddleware.checkUserToken, upload.single('user_image'), authMiddleware.authRole([role.ADMIN, role.USER]), userMiddleware.authUpdate, userController.update)
+userRoute.patch('/:uuid', authMiddleware.checkUserToken, upload.single('user_image'), authMiddleware.authRole([role.ADMIN, role.USER]), userMiddleware.authUpdate, userController.update)
 
 userRoute.get('/:uuid/follows', authMiddleware.checkUserToken, authMiddleware.authRole([role.USER]), userMiddleware.authGetFollows, userController.getFollows)
 

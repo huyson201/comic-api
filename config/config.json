@@ -5,8 +5,8 @@
     "database": "cdtn_web_truyen",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "timezone": "Asia/Ho_Chi_Minh",
-    "logging": false
+    "timezone": "Asia/Ho_Chi_Minh"
+   
   },
   "test": {
     "username": "root",
@@ -21,6 +21,7 @@
     "database": "q8IikfevId",
     "host": "remotemysql.com",
     "dialect": "mysql",
-    "timezone": "Asia/Ho_Chi_Minh"
+    "timezone": "Asia/Ho_Chi_Minh",
+    "logging": false
   }
 }
