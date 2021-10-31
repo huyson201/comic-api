@@ -44,7 +44,7 @@ class UserController {
       let user = req.user;
       if (!user) return res.status(400).send('user not found!');
 
-      if (user.user_role !== "admin" && uuid !== userId) return res.status(403).send("You don't have permission!");
+      if (user.user_role !== "admin" && user.user_uuid !== userId) return res.status(403).send("You don't have permission!");
 
       res.status(200).json({
         message: "Success",
