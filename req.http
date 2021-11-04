@@ -22,7 +22,7 @@ content-type: application/json
 ### logout
 POST http://localhost:3001/api/logout
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIzMDQ3OGM1Yi1kZTFiLTQ5YmEtODFjNC1kZTg4ZTBjMTQxNGIiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzoxNTo0NS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzoxNTo0NS4wMDBaIiwiaWF0IjoxNjM1NDI2OTU0LCJleHAiOjE2MzU0MzQxNTR9.iX4BM7MFbxWB1dE5U8b4YRlJXX-3XwQzAtx6mqQSVU4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI2ZGIzNjVjNy1mMmVjLTQ2YjEtOTQwYS03YTNmOTVmZjMzMjEiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNTkxNzg1NiwiZXhwIjoxNjM1OTI1MDU2fQ.A_BQzQtyNFotTYEm7bJw0hnnrqPws9ymqdq2tqcKWXw
 
 ### refresh token
 POST http://localhost:3001/api/refresh-token
@@ -89,10 +89,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI5Y
 
 
 ### get follows
-GET http://localhost:3001/api/follows
+GET http://localhost:3001/api/4338c545-0f98-4954-9da4-b5ae0aadb792/follows
 
 ### get follows by user_uuid, comic-id
-GET http://localhost:3001/api/follows?user_uuid=1e69aa36-db41-454b-99e9-2c07f11eaa8f&comic_id=2
+GET http://localhost:3001/api/follows?user_uuid=4338c545-0f98-4954-9da4-b5ae0aadb792
 
 
 
@@ -143,13 +143,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 GET http://localhost:3001/api/comics/1/comments?offset=2&limit=1&sort=updatedAt:desc
 
 ### admin 
-GET http://localhost:3001/api/admin/comics
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJuZ3V5ZW4gZG9hbiBodXkgc29uICIsInVzZXJfZW1haWwiOiJodXlzb24yMDNAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Imh0cHA6Ly9sb2NhbGhvc3Q6MzAwMS9pbWFnZXMvZTdlNDA2ZDIxNjZjYmVmNzExZTNmNGQ0ZGYwZWM3ZGYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMTRUMDQ6MTY6NTEuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjFUMTI6MjQ6MDMuMDAwWiIsImlhdCI6MTYzNDgyMTE4OCwiZXhwIjoxNjM0ODI4Mzg4fQ.L0JNBJD7BdvhGTy7XyrxAYqhzGn5eh6r_1vw2FyxkK4
+POST http://localhost:3001/api/admin/comics
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI0MzM4YzU0NS0wZjk4LTQ5NTQtOWRhNC1iNWFlMGFhZGI3OTIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjA2NTY3OSwiZXhwIjoxNjM2MDcyODc5fQ.ZejT_L-BXN9SWXBI_9sxJUxDsv0DG5KNSaoVa7R0JoA
 
+{
+   "comic_id":31,
+   "comic_name":"test"
+}
 
 ### delete comic
-DELETE  http://localhost:3001/api/admin/comics/28
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNTY4NzQxNiwiZXhwIjoxNjM1Njk0NjE2fQ.C1fv02gemmpR5AmzToDBZD3CBpDZnzWxJMIJySm0_Eg
+DELETE  http://localhost:3001/api/admin/comics/27
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI0MzM4YzU0NS0wZjk4LTQ5NTQtOWRhNC1iNWFlMGFhZGI3OTIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjA2NTY3OSwiZXhwIjoxNjM2MDcyODc5fQ.ZejT_L-BXN9SWXBI_9sxJUxDsv0DG5KNSaoVa7R0JoA
 
 ### update comic
 PATCH  http://localhost:3001/api/admin/comics/28
