@@ -148,7 +148,6 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI0MzM4YzU0NS0wZjk4LTQ5NTQtOWRhNC1iNWFlMGFhZGI3OTIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjA2NTY3OSwiZXhwIjoxNjM2MDcyODc5fQ.ZejT_L-BXN9SWXBI_9sxJUxDsv0DG5KNSaoVa7R0JoA
 
 {
-   "comic_id":31,
    "comic_name":"test"
 }
 

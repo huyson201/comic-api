@@ -47,12 +47,15 @@ function uploadFile(file) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await googleDrive.uploadFileDrive(file)
+            console.log(result,"result");
             let fileId = result.data.id
             let link = await googleDrive.generatePublicUrl(fileId)
             let data = link.data
+            console.log(1234);
             imgUrl = data.thumbnailLink.replace(/=s(\w)*$/i, '') + `?id=${link.data.id}`
             resolve(imgUrl)
         } catch (error) {
+            console.log(12345);
             reject(error)
         }
     })
