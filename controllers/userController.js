@@ -88,15 +88,15 @@ class UserController {
       let user = await User.findByPk(userId)
 
       if (req.file) {
-        if (user.user_image && user.user_image !== '') {
-          let fileId = searchParams(user.user_image).get('id')
-          googleDrive.updateFileDrive(fileId, req.file)
-          data.user_image = user.user_image
+        let fileId = searchParams(user.user_image).get('id')
+        // delete old image
+        if (fileId && fileId !== '') {
+          await googleDrive.deleteFileDrive(fileId)
         }
-        else {
-          let imgUrl = await uploadFile(req.file)
-          data.user_image = imgUrl
-        }
+
+        // upload new image
+        let imgUrl = await uploadFile(req.file)
+        data.user_image = imgUrl
 
       }
 
