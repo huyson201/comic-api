@@ -162,8 +162,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4Z
 ###send a form-data to update
 
 
-###https://love-comic-api.herokuapp.com/api/
-POST https://love-comic-api.herokuapp.com/api/forget-password
+###
+
+POST http://localhost:3001/api/forget-password
 Content-Type:  application/json
 
 {

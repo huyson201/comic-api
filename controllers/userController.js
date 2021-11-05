@@ -88,10 +88,15 @@ class UserController {
       let user = await User.findByPk(userId)
 
       if (req.file) {
-        let fileId = searchParams(user.user_image).get('id')
         // delete old image
-        if (fileId && fileId !== '') {
-          await googleDrive.deleteFileDrive(fileId)
+
+        if (user.user_image !== '') {
+          let fileId = searchParams(user.user_image).get('id')
+
+          if (fileId && fileId !== '') {
+            await googleDrive.deleteFileDrive(fileId)
+          }
+
         }
 
         // upload new image
@@ -108,7 +113,7 @@ class UserController {
       });
 
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
       return res.status(400).send(err.message);
     }
   }

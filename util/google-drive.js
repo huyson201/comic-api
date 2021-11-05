@@ -4,7 +4,7 @@ const fs = require('fs')
 
 const drive = google.drive({
     version: 'v3',
-    auth: oauth2Client
+    auth: oauth2Client,
 })
 
 
