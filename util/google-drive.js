@@ -54,11 +54,12 @@ const updateFileDrive = (fileId, file) => {
             })
 
 
-            console.log(res.data)
+
             fs.unlinkSync(filePath)
             resolve(res)
         }
         catch (error) {
+            fs.unlinkSync(filePath)
             reject(error)
         }
     })
@@ -73,8 +74,7 @@ const deleteFileDrive = (fileId) => {
             let res = await drive.files.delete({
                 fileId: fileId
             })
-
-            console.log(res)
+            resolve(res)
         } catch (error) {
             reject(error)
         }

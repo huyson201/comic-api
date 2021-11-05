@@ -10,7 +10,8 @@ const scopes = [
 
 oauth2Client.setCredentials({ refresh_token: config.refreshToken })
 
-oauth2Client.generateCodeVerifierAsync().then(data => console.log(data))
+
+
 
 
 

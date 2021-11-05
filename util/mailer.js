@@ -5,7 +5,7 @@ const oauth2Client = require('./google-auth')
 
 const sendMailResetPassword = async (link, toEmail) => {
 
-    const { accessToken, error } = await oauth2Client.getAccessToken()
+    const accessToken = await oauth2Client.getAccessToken()
 
 
     let transporter = nodemailer.createTransport({

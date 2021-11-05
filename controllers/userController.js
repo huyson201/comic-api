@@ -3,6 +3,8 @@ const { User, sequelize, Follow } = require("../models");
 const bcrypt = require("bcrypt");
 const { uploadFile, googleDrive, searchParams } = require('../util');
 const { updateScope } = require('../permissions/user')
+const validator = require('validator')
+
 class UserController {
   //get all users
   async index(req, res) {
@@ -90,7 +92,8 @@ class UserController {
       if (req.file) {
         // delete old image
 
-        if (user.user_image !== '') {
+        if (user.user_image && validator.isURL(user.user_image)) {
+
           let fileId = searchParams(user.user_image).get('id')
 
           if (fileId && fileId !== '') {
@@ -102,11 +105,13 @@ class UserController {
         // upload new image
         let imgUrl = await uploadFile(req.file)
         data.user_image = imgUrl
+        console.log(imgUrl)
 
       }
 
       await updateScope(req.user.user_role, user, data)
 
+      console.log(user)
       return res.status(200).json({
         message: "Update success",
         data: user,
