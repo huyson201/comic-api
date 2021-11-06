@@ -60,6 +60,12 @@ GET http://localhost:3001/api/categories
 content-type: application/json 
 
 
+### get comics of category
+GET http://localhost:3001/api/chapters/
+content-type: application/json 
+
+
+
 ### create rating
 POST http://localhost:3001/api/rates
 content-type: application/json 
@@ -146,7 +152,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJjM
 {
    "comic_id": 1,
 }
-
+### getcomic
+GET http://localhost:3001/api/chapters/comics/1?limit=5&offset=0&sort=chapter_id:desc
+content-type: application/json 
 ### get comments of comic
 GET http://localhost:3001/api/comics/1/comments?offset=2&limit=1&sort=updatedAt:desc
 

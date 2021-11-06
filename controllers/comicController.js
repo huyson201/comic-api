@@ -1,4 +1,4 @@
-const { Comic, sequelize, Comment, ComicCategory } = require('../models')
+const { Comic, sequelize, Comment, ComicCategory, Chapter } = require('../models')
 const { Op } = require("sequelize");
 const { uploadFile, googleDrive, searchParams } = require('../util');
 
@@ -19,7 +19,6 @@ class ComicController {
             let value = sort.split(':')[1]
             query.order = [[col, value]]
         }
-
         query.include = [
             {
                 association: "chapters",
@@ -31,15 +30,12 @@ class ComicController {
             }
         ]
 
-
         try {
-
             let comics = await Comic.findAndCountAll(query)
             return res.status(200).json({
                 message: "success",
                 data: comics
             })
-
         }
         catch (err) {
             return res.status(400).send(err.message)
@@ -146,11 +142,6 @@ class ComicController {
         if (status) {
             query.where[Op.and].push({ comic_status: status })
         }
-
-
-
-
-
         try {
             let comics = await Comic.findAndCountAll(query)
             return res.status(200).json(comics)
@@ -198,10 +189,9 @@ class ComicController {
         query.include = [
             {
                 association: "chapters",
-                attributes: ['chapter_id', 'comic_id', 'createdAt', 'updatedAt']
+                attributes: ['chapter_id', 'comic_id', 'createdAt', 'updatedAt'],
             }
         ]
-
 
         try {
             let comic = await Comic.findByPk(comicId, query)

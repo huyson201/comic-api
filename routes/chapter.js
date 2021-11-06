@@ -4,4 +4,5 @@ const chapterController = require('../controllers/chapterController')
 
 chapterRoute.get('/', chapterController.index)
 chapterRoute.get('/:id(\\d+$)', chapterController.getById)
+chapterRoute.get('/comics/:id(\\d+$)', chapterController.getByComicId)
 module.exports = chapterRoute
