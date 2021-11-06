@@ -1,4 +1,4 @@
-const { Chapter } = require("../models");
+const { Chapter, sequelize } = require("../models");
 
 class ChapterController {
   async index(req, res) {
@@ -73,6 +73,23 @@ class ChapterController {
       return res.status(400).send(err.message)
     }
   }
+
+  async delete(req, res) {
+    let chapter_id = req.params.id
+    const t = await sequelize.transaction()
+    console.log(chapter_id, "chap");
+
+    try {
+      await Chapter.destroy({ where: { chapter_id } }, { transaction: t })
+      t.commit()
+      return res.status(204).send("deleted success")
+    } catch (error) {
+      console.log(error)
+      t.rollback()
+      return res.status(400).send(error.message)
+    }
+  }
+
 }
 
 const chapterController = new ChapterController();
