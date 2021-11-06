@@ -1,4 +1,5 @@
-const { Comment } = require('../models')
+const { Comment, sequelize, Comic } = require('../models')
+const sendCommentNotify = require('../queues/comment-notify.queue')
 class CommentController {
     async index(req, res) {
         const query = {}
@@ -18,11 +19,33 @@ class CommentController {
     async create(req, res) {
         let { comic_id, comment_content, parent_id } = req.body
         let user_uuid = req.user.user_uuid
-
         if (!parent_id) parent_id = 0
 
+        const t = await sequelize.transaction()
+
         try {
-            let comment = await Comment.create({ comic_id, comment_content, parent_id, user_uuid })
+            let comment = await Comment.create({ comic_id, comment_content, parent_id, user_uuid }, { transaction: t })
+
+            if (parent_id !== 0) {
+                let parentComment = await Comment.findByPk(parent_id)
+                let comic = await Comic.findByPk(comic_id, { attributes: ['comic_name'] })
+
+                let actorId = parentComment.user_uuid
+
+                let notify_msg = `${req.user.user_name} đã trở lời bình luận của bạn trong ${comic.comic_name}`
+
+                let notify = {
+                    notifier_id: user_uuid,
+                    actor_id: actorId,
+                    comment_id: comment.comment_id,
+                    notification_message: notify_msg
+                }
+
+                sendCommentNotify(notify)
+            }
+
+            t.commit()
+
             return res.status(201).json({
                 code: 201,
                 name: "",
@@ -30,8 +53,9 @@ class CommentController {
                 data: comment
             })
         } catch (error) {
+            t.rollback()
             console.log(error)
-            return res.send(error)
+            return res.status(400).send(error.message)
         }
     }
     async count(req, res) {

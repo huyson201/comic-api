@@ -20,7 +20,12 @@ const getUserConnected = (userId) => {
 const deleteUserConnected = (userId, socketId) => {
     let index = users[userId].indexOf(socketId)
     if (index !== -1) {
-        users[userId].splice(index, 1)
+        if (users[userId].length > 1) {
+            users[userId].splice(index, 1)
+        }
+        else {
+            delete users[userId]
+        }
     }
 
     console.log(users)

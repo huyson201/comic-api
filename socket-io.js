@@ -1,6 +1,23 @@
-const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const jwt = require('jsonwebtoken')
+const socketIO = require('socket.io')
 const userConnectManager = require('./user-connect')
+
+let io = null
+
+const init = (server) => {
+    io = socketIO(server, {
+        cors: {
+            origin: '*'
+        }
+    });
+
+    return io
+}
+
+const getIo = () => {
+    return io
+}
 
 const socketIo = (io) => {
     io.use((socket, next) => {
@@ -37,4 +54,4 @@ const socketIo = (io) => {
 
 }
 
-module.exports = socketIo
+module.exports = { socketIo, init, getIo }

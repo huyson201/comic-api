@@ -19,6 +19,15 @@ content-type: application/json
     "user_password": "asdasd"
 }
 
+###
+POST http://localhost:3001/api/login
+content-type: application/json 
+
+{
+    "user_email" :"huyson113@gmail.com",
+    "user_password": "asdasd"
+}
+
 ### logout
 POST http://localhost:3001/api/logout
 content-type: application/json 
@@ -119,12 +128,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 ### create a comment
 POST  http://localhost:3001/api/comments
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwNDoxNjo1MS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xNVQwMToyNDo0Ni4wMDBaIiwiaWF0IjoxNjM0MzA0MDA3LCJleHAiOjE2MzQzMTEyMDd9.mRBHtphdpi76ooCQDdPpfySkcNwB2jfglh6PeDOsD1c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJjMzU3NjQ0OS0xNmNiLTQ2ZGQtOTI0MS1iNGE4OTEyZDc3YTIiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiaWF0IjoxNjM2MTcwMTE5LCJleHAiOjE2MzYxNzczMTl9.F9GmyIFyzUroN4mZkcA13-Bia_PJxAHHEIdce6DM2kc
 
 {
    "comic_id": 1,
-   "comment_content": "comment content...",
-   "parent_id": 2
+   "comment_content": "truyen hay..."
+   
 
 }
 
@@ -132,11 +141,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 ### get all comment
 GET  http://localhost:3001/api/comments
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZTY5YWEzNi1kYjQxLTQ1NGItOTllOS0yYzA3ZjExZWFhOGYiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwM0BnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0xNFQwNDoxNjo1MS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0xNVQwMToyNDo0Ni4wMDBaIiwiaWF0IjoxNjM0MzA0MDA3LCJleHAiOjE2MzQzMTEyMDd9.mRBHtphdpi76ooCQDdPpfySkcNwB2jfglh6PeDOsD1c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJjMzU3NjQ0OS0xNmNiLTQ2ZGQtOTI0MS1iNGE4OTEyZDc3YTIiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiaWF0IjoxNjM2MTcwMTE5LCJleHAiOjE2MzYxNzczMTl9.F9GmyIFyzUroN4mZkcA13-Bia_PJxAHHEIdce6DM2kc
 
 {
    "comic_id": 1,
-   "comment_content": "comment content...",
 }
 
 ### get comments of comic
