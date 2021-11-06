@@ -92,7 +92,16 @@ class ComicController {
             let value = sort.split(':')[1]
             query.order = [[col, value]]
         }
-
+        query.include = [
+            {
+                association: "chapters",
+                attributes: ['chapter_id', 'chapter_name'],
+                required: true,
+                order: [["chapter_id", "desc"]],
+                limit: 1,
+                offset: 0
+            }
+        ]
         try {
             let comics = await Comic.findAndCountAll(query)
             return res.status(200).json({
@@ -127,9 +136,19 @@ class ComicController {
                 through: {
                     attributes: []
                 },
+               
             }
         ]
-
+        query.include = [
+            {
+                association: "chapters",
+                attributes: ['chapter_id', 'chapter_name'],
+                required: true,
+                order: [["chapter_id", "desc"]],
+                limit: 1,
+                offset: 0
+            }
+        ]
         if (offset) query.offset = +offset
         if (limit) query.limit = +limit
 
@@ -268,6 +287,7 @@ class ComicController {
         try {
 
             let comic_img = ''
+            categories = categories.split(',')
 
             //upload comic img
             if (req.file) {
@@ -306,7 +326,7 @@ class ComicController {
             let comic = await Comic.findByPk(comic_id)
 
             let comic_img = ''
-
+            
 
             //upload comic img
             if (req.file) {
@@ -323,10 +343,10 @@ class ComicController {
             }
 
             if (categories) {
+                categories = categories.split(',')
                 categories = [...new Set(categories)]
-
-                await ComicCategory.destroy({ where: { comic_id } })
-
+                const res = await ComicCategory.destroy({ where: { comic_id } })
+                console.log(res,"result")
                 let categoryData = []
 
                 for (let index in categories) {
