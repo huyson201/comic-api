@@ -1,5 +1,5 @@
 const { Chapter, sequelize } = require("../models");
-
+const { uploadFile, googleDrive, searchParams } = require('../util');
 class ChapterController {
   async index(req, res) {
     let { limit, offset, sort } = req.query;
@@ -55,7 +55,6 @@ class ChapterController {
     if (limit) query.limit = +limit
 
     if (sort) {
-      console.log(sort, "sort");
       let col = sort.split(':')[0]
       let value = sort.split(':')[1]
       query.order = [[col, value]]
@@ -77,7 +76,6 @@ class ChapterController {
   async delete(req, res) {
     let chapter_id = req.params.id
     const t = await sequelize.transaction()
-    console.log(chapter_id, "chap");
 
     try {
       await Chapter.destroy({ where: { chapter_id } }, { transaction: t })
@@ -89,6 +87,64 @@ class ChapterController {
       return res.status(400).send(error.message)
     }
   }
+
+  async create(req, res) {
+    let { comic_id, chapter_name } = req.body
+    const t = await sequelize.transaction()
+    try {
+      let imgs = []
+      if (req.files) {
+        for (let file of req.files) {
+          console.log(file);
+          const imgUrl = await uploadFile(file)
+          imgs.push(imgUrl)
+        }
+      }
+      const chapter_imgs = imgs.toString()
+      console.log(chapter_imgs);
+      // create chapter
+      let chapter = await Chapter.create({ comic_id, chapter_name, chapter_imgs }, { transaction: t })
+      await t.commit()
+      return res.status(200).json({ data: chapter, message: "Create comic successfully!" })
+    } catch (error) {
+      await t.rollback()
+      return res.status(400).send(error.message)
+    }
+  }
+
+  async updateImg(req, res) {
+    let { data, old_img } = req.body
+    let chapter_id = req.params.id
+    const temp = old_img
+    const t = await sequelize.transaction()
+    try {
+      let chapter = await Chapter.findByPk(chapter_id)
+      //upload chap img
+      if (req.file) {
+        if (old_img) {
+          let fileId = searchParams(old_img).get('id')
+          googleDrive.updateFileDrive(fileId, req.file)
+          data.chapter_img = chapter.chapter_imgs.replace(temp, old_img)
+        }
+        else {
+          let imgUrl = await uploadFile(req.file)
+          data.chapter_img = chapter.chapter_imgs + ',' + imgUrl
+        }
+        console.log(old_img, "old img");
+        console.log(temp, "temp");
+      }
+      // update chap
+      await chapter.update({ ...data }, { transaction: t })
+      await t.commit()
+      return res.status(200).json({ data: comic, message: "Update comic successfully!" })
+
+    } catch (error) {
+      console.log(error)
+      await t.rollback()
+      return res.status(400).send(error.message)
+    }
+  }
+
 
 }
 

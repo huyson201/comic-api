@@ -1,12 +1,12 @@
-###https://love-comic-api.herokuapp.com/api/
-POST https://love-comic-api.herokuapp.com/api/register
+###https://love-comic.herokuapp.com/api/
+POST https://love-comic.herokuapp.com/api/register
 content-type: application/json
 
 {
-    "user_email": "huyson201@gmail.com",
-    "user_password": "asdasd",
-    "confirm_password": "asdasd",
-    "user_name": "huy son"
+    "user_email": "oanh@gmail.com",
+    "user_password": "123456",
+    "confirm_password": "123456",
+    "user_name": "kieu oanh"
    
 }
 
@@ -56,6 +56,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4Z
 }
 
 ### get comics of category
+DELETE http://localhost:3001/api/admin/chapters/delete/1
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZWM3MTcyZi03ZjRiLTQ1YTItYWY0NS05NzAwZWJlZTA1MWIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjE4NDQ5MiwiZXhwIjoxNjM2MTkxNjkyfQ.uobcJ-HtGM_07KjnfFD5XRK8v6ucg8aF82rx9MN8ZuM
+
+### get comics of category
 GET http://localhost:3001/api/categories
 content-type: application/json 
 
@@ -69,10 +74,10 @@ content-type: application/json
 ### create rating
 POST http://localhost:3001/api/rates
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI1NjNlMGI4ZS02ZWFiLTQxZWEtOTUxYi0yYzVkZGJhMDE4NjQiLCJ1c2VyX25hbWUiOiJuZ29jMzQiLCJ1c2VyX2VtYWlsIjoibmdvYzJAZ21haWwuY29tIiwidXNlcl9pbWFnZSI6Im51bGwiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yMlQxNToxNDo0NC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yM1QwNzoxMjo0My4wMDBaIiwiaWF0IjoxNjM0OTczODI5LCJleHAiOjE2MzQ5ODEwMjl9.kIMhxrnloACGrRnvCP8Cu_FDscUCYMNp3PVl8xSzTnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZWM3MTcyZi03ZjRiLTQ1YTItYWY0NS05NzAwZWJlZTA1MWIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjI2OTg3NSwiZXhwIjoxNjM2Mjc3MDc1fQ.PFqfyeLicH6hQklmeLCEzi87ROIlgSuNBZZLv0qC7fA
 
 {
-    "rate_star" : 4,
+    "rate_star" : 5,
     "comic_id": 1
 }
 
@@ -83,13 +88,13 @@ GET http://localhost:3001/api/rates?comic_id=1
 GET http://localhost:3001/api/rates/sum?comic_id=1
 
 ### update rate have id = 1
-PATCH http://localhost:3001/api/rates/1
+PATCH http://localhost:3001/api/rates/2
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNTY2NDQyMCwiZXhwIjoxNjM1NjcxNjIwfQ.36mhMh_iumFfwUCO6tX_PPDg9MuBQAQ_9eOUMo8EINI
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZWM3MTcyZi03ZjRiLTQ1YTItYWY0NS05NzAwZWJlZTA1MWIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjI2OTg3NSwiZXhwIjoxNjM2Mjc3MDc1fQ.PFqfyeLicH6hQklmeLCEzi87ROIlgSuNBZZLv0qC7fA
 
 {
-    "user_uuid": "8f7a3a66-bf06-4b00-90e0-295ee84a6eb6",
-    "rate_star": 5
+    "user_uuid": "8ec7172f-7f4b-45a2-af45-9700ebee051b",
+    "rate_star": 4
 }
 
 ### change password
@@ -167,6 +172,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI0M
 {
    "comic_name":"test"
 }
+
+### admin 
+POST http://localhost:3001/api/admin/chapters
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZWM3MTcyZi03ZjRiLTQ1YTItYWY0NS05NzAwZWJlZTA1MWIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjI4NjE0NCwiZXhwIjoxNjM2MjkzMzQ0fQ.rEu5FbF-sgiBOBKpL_wTJYDwPx9RNF8MNv4JiINDEIA
+
+{
+   "comic_id":7,
+   "chapter_name":"test",
+   "chapter_imgs":"123"
+}
+
 
 ### delete comic
 DELETE  http://localhost:3001/api/admin/comics/27

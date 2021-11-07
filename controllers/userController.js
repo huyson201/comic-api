@@ -88,7 +88,8 @@ class UserController {
 
       let userId = req.params.uuid
       let user = await User.findByPk(userId)
-
+      // console.log(req, "req");
+      // console.log(req.file, "file");
       if (req.file) {
         // delete old image
 
