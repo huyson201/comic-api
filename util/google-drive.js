@@ -1,10 +1,10 @@
-const oauth2Client = require('./google-auth')
+const googleAuth = require('./google-auth')
 const { google } = require('googleapis')
 const fs = require('fs')
 
 const drive = google.drive({
     version: 'v3',
-    auth: oauth2Client,
+    auth: googleAuth,
 })
 
 

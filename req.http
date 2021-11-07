@@ -134,11 +134,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 ### create a comment
 POST  http://localhost:3001/api/comments
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiJjMzU3NjQ0OS0xNmNiLTQ2ZGQtOTI0MS1iNGE4OTEyZDc3YTIiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiaWF0IjoxNjM2MTcwMTE5LCJleHAiOjE2MzYxNzczMTl9.F9GmyIFyzUroN4mZkcA13-Bia_PJxAHHEIdce6DM2kc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZjdhM2E2Ni1iZjA2LTRiMDAtOTBlMC0yOTVlZTg0YTZlYjYiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzNjE3MDQwNCwiZXhwIjoxNjM2MTc3NjA0fQ.-Lc5WzZUjwZyhpGBq6kOW9yxCh6WgkCbZqoJZfM0ALY
 
 {
    "comic_id": 1,
-   "comment_content": "truyen hay..."
+   "comment_content": "truyen hay 123123...",
+   "parent_id": 1
    
 
 }
