@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { User, sequelize, Follow } = require("../models");
+const { User, sequelize, Follow, CommentNotification } = require("../models");
 const bcrypt = require("bcrypt");
 const { uploadFile, googleDrive, searchParams } = require('../util');
 const { updateScope } = require('../permissions/user')
@@ -106,7 +106,6 @@ class UserController {
         // upload new image
         let imgUrl = await uploadFile(req.file)
         data.user_image = imgUrl
-        console.log(imgUrl)
 
       }
 
@@ -197,6 +196,28 @@ class UserController {
     } catch (error) {
       console.log(error);
       return res.status(400).send(error);
+    }
+  }
+
+  async getNotifications(req, res) {
+    let user_uuid = req.params.uuid
+    if (!user_uuid) return res.status(400).send('user_id not found!')
+    const query = {
+      where: { actor_id: user_uuid },
+      order: [['createdAt', 'DESC']],
+      include: [{
+        association: 'notifier_info',
+        attributes: ['user_name', 'user_image', 'user_role']
+      }]
+    }
+    try {
+      let notifications = await CommentNotification.findAll(query)
+      return res.status(200).json({
+        data: notifications
+      })
+    } catch (error) {
+      console.log(error)
+      return res.status(400).send(error.message)
     }
   }
 }

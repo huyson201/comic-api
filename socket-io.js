@@ -45,9 +45,7 @@ const socketIo = (io) => {
 
     io.on('connect', socket => {
         console.log('user connected: ', socket.id)
-        socket.on('user-disconnect', () => {
-            socket.disconnect()
-        })
+
     })
 
 

@@ -13,7 +13,10 @@ const commentNotifyQueue = new Bull('commentNotify', {
 commentNotifyQueue.process(commentNotifyProcess)
 
 const sendCommentNotify = (data) => {
-    commentNotifyQueue.add(data)
+    commentNotifyQueue.add(data, {
+        removeOnComplete: true,
+        removeOnFail: true
+    })
 }
 
 module.exports = sendCommentNotify

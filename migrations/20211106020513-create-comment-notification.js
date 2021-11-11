@@ -20,6 +20,10 @@ module.exports = {
       notification_message: {
         type: Sequelize.STRING
       },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: 'new'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

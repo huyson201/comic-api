@@ -6,6 +6,7 @@ const chapterRoute = require('./chapter')
 const rateRoute = require('./rate')
 const followRoute = require('./follow')
 const commentRoute = require('./comment')
+const notifytRoute = require('./notify')
 const authMiddleware = require('../middleware/auth')
 const adminUserRoute = require("./admin/user")
 const adminComicRoute = require("./admin/comic")
@@ -22,8 +23,8 @@ function route(app) {
     app.use('/api/rates', rateRoute)
     app.use('/api/follows', followRoute)
     app.use('/api/comments', commentRoute)
-
-    app.use('/api/users', authMiddleware.checkUserToken, userRoute)
+    app.use('/api/notifications', notifytRoute)
+    app.use('/api/users', userRoute)
 
     // admin route
     app.use('/api/admin', authMiddleware.checkUserToken, authMiddleware.authRole([role.ADMIN]))

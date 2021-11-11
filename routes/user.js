@@ -16,7 +16,7 @@ userRoute.patch('/:uuid', authMiddleware.checkUserToken, upload.single('user_ima
 
 userRoute.get('/:uuid/follows', authMiddleware.checkUserToken, authMiddleware.authRole([role.USER]), userMiddleware.authGetFollows, userController.getFollows)
 
-
+userRoute.get('/:uuid/notifications', userController.getNotifications)
 
 
 module.exports = userRoute

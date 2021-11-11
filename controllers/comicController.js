@@ -136,7 +136,7 @@ class ComicController {
                 through: {
                     attributes: []
                 },
-               
+
             }
         ]
         query.include = [
@@ -267,6 +267,17 @@ class ComicController {
 
 
             let comments = await Comment.findAll(queryComment)
+            comments = comments.map(el => {
+                let comment = el.get({ plain: true })
+                comment.subComments = el.subComments.sort((a, b) => {
+                    let dateA = new Date(a)
+                    let dateB = new Date(b)
+
+                    return dateA > dateB ? 1 : -1
+                })
+
+                return comment
+            })
 
             return res.status(200).json({
                 code: 200,
@@ -326,7 +337,7 @@ class ComicController {
             let comic = await Comic.findByPk(comic_id)
 
             let comic_img = ''
-            
+
 
             //upload comic img
             if (req.file) {
@@ -346,7 +357,7 @@ class ComicController {
                 categories = categories.split(',')
                 categories = [...new Set(categories)]
                 const res = await ComicCategory.destroy({ where: { comic_id } })
-                console.log(res,"result")
+                console.log(res, "result")
                 let categoryData = []
 
                 for (let index in categories) {

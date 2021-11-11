@@ -28,20 +28,23 @@ class CommentController {
 
             if (parent_id !== 0) {
                 let parentComment = await Comment.findByPk(parent_id)
-                let comic = await Comic.findByPk(comic_id, { attributes: ['comic_name'] })
-
                 let actorId = parentComment.user_uuid
 
-                let notify_msg = `${req.user.user_name} đã trở lời bình luận của bạn trong ${comic.comic_name}`
+                if (actorId !== user_uuid) {
 
-                let notify = {
-                    notifier_id: user_uuid,
-                    actor_id: actorId,
-                    comment_id: comment.comment_id,
-                    notification_message: notify_msg
+                    let comic = await Comic.findByPk(comic_id, { attributes: ['comic_name'] })
+
+                    let notify_msg = `${req.user.user_name} đã trở lời bình luận của bạn trong ${comic.comic_name}`
+
+                    let notify = {
+                        notifier_id: user_uuid,
+                        actor_id: actorId,
+                        comment_id: comment.comment_id,
+                        notification_message: notify_msg
+                    }
+
+                    sendCommentNotify(notify)
                 }
-
-                sendCommentNotify(notify)
             }
 
             t.commit()

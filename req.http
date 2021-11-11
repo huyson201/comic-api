@@ -1,12 +1,14 @@
-###https://love-comic.herokuapp.com/api/
-POST https://love-comic.herokuapp.com/api/register
+@hostURL=https://love-comic.herokuapp.com/api
+@localURl=http://localhost:3001/api
+###
+POST {{hostURL}}/register
 content-type: application/json
 
 {
-    "user_email": "oanh@gmail.com",
-    "user_password": "123456",
-    "confirm_password": "123456",
-    "user_name": "kieu oanh"
+    "user_email": "huyson2021@gmail.com",
+    "user_password": "asdasd",
+    "confirm_password": "asdasd",
+    "user_name": "huy son"
    
 }
 
@@ -197,7 +199,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4Z
 
 ###
 
-POST http://localhost:3001/api/forget-password
+POST {{hostURL}}/forget-password
 Content-Type:  application/json
 
 {
@@ -221,3 +223,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
     "new_password": "son123",
     "confirm_password": "son123"
 }
+
+###
+
+# @name getNotificationOfUser
+
+GET {{localURl}}/users/c3576449-16cb-46dd-9241-b4a8912d77a2/notifications
+Content-Type:  application/json

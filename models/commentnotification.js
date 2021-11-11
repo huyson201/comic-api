@@ -9,8 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ User }) {
       // define association here
+      this.belongsTo(User, { as: 'actor_info', foreignKey: 'actor_id', targetKey: 'user_uuid' })
+      this.belongsTo(User, { as: 'notifier_info', foreignKey: 'notifier_id', targetKey: 'user_uuid' })
     }
 
     toJSON() {
@@ -21,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     notifier_id: DataTypes.STRING,
     actor_id: DataTypes.STRING,
     comment_id: DataTypes.INTEGER,
-    notification_message: DataTypes.STRING
+    notification_message: DataTypes.STRING,
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'new'
+    }
   }, {
     sequelize,
     modelName: 'CommentNotification',

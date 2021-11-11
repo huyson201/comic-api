@@ -100,7 +100,7 @@ const generatePublicUrl = (fileId) => {
                 fileId: fileId,
                 fields: 'webViewLink, webContentLink, thumbnailLink, id',
             })
-            console.log(res.data)
+
             resolve(res)
         }
         catch (error) {
