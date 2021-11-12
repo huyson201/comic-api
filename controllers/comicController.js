@@ -137,10 +137,8 @@ class ComicController {
                     attributes: []
                 },
 
-            }
-        ]
-        query.include = [
-            {
+            },
+             {
                 association: "chapters",
                 attributes: ['chapter_id', 'chapter_name'],
                 required: true,
@@ -149,6 +147,7 @@ class ComicController {
                 offset: 0
             }
         ]
+     
         if (offset) query.offset = +offset
         if (limit) query.limit = +limit
 
