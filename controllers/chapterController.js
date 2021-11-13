@@ -101,7 +101,6 @@ class ChapterController {
         }
       }
       const chapter_imgs = imgs.toString()
-      console.log(chapter_imgs);
       // create chapter
       let chapter = await Chapter.create({ comic_id, chapter_name, chapter_imgs }, { transaction: t })
       await t.commit()
@@ -113,36 +112,47 @@ class ChapterController {
   }
 
   async updateImg(req, res) {
-    let { data, old_img } = req.body
+    let { chapter_name, chapter_imgs } = req.body
     let chapter_id = req.params.id
-    const temp = old_img
+    // const temp = old_img
     const t = await sequelize.transaction()
+    console.log("file file file ne", req.files);
     try {
       let chapter = await Chapter.findByPk(chapter_id)
-      //upload chap img
-      if (req.file) {
-        if (old_img) {
-          let fileId = searchParams(old_img).get('id')
-          googleDrive.updateFileDrive(fileId, req.file)
-          data.chapter_img = chapter.chapter_imgs.replace(temp, old_img)
+      // upload img
+      let imgsUrl = []
+      if (req.files) {
+        for (let img of req.files) {
+          let result = await uploadFile(img)
+          imgsUrl.push(result)
         }
-        else {
-          let imgUrl = await uploadFile(req.file)
-          data.chapter_img = chapter.chapter_imgs + ',' + imgUrl
-        }
-        console.log(old_img, "old img");
-        console.log(temp, "temp");
       }
-      // update chap
-      await chapter.update({ ...data }, { transaction: t })
+      if (imgsUrl.length > 0) chapter_imgs = imgsUrl.toString()
+      await chapter.update({ chapter_name, chapter_imgs }, { transaction: t })
       await t.commit()
-      return res.status(200).json({ data: comic, message: "Update comic successfully!" })
-
+      return res.status(200).json({ data: chapter, message: "Update chapter successfully!" })
     } catch (error) {
       console.log(error)
       await t.rollback()
       return res.status(400).send(error.message)
     }
+    // await chapter.update(data)
+
+    // //upload chap img
+    // if (req.file) {
+    //   if (old_img) {
+    //     let fileId = searchParams(old_img).get('id')
+    //     googleDrive.updateFileDrive(fileId, req.file)
+    //     data.chapter_img = chapter.chapter_imgs.replace(temp, old_img)
+    //   }
+    //   else {
+    //     let imgUrl = await uploadFile(req.file)
+    //     data.chapter_img = chapter.chapter_imgs + ',' + imgUrl
+    //   }
+    //   console.log(old_img, "old img");
+    //   console.log(temp, "temp");
+    // }
+    // update chap
   }
 
 
