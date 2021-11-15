@@ -7,5 +7,4 @@ redisStore.on("error", function (error) {
 });
 
 
-console.log('a: ' + a)
 module.exports = redisStore

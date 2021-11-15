@@ -230,3 +230,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 
 GET {{localURl}}/users/c3576449-16cb-46dd-9241-b4a8912d77a2/notifications
 Content-Type:  application/json
+
+
+###
+
+# @name getComics
+GET {{localURl}}/comics?limit=10&offset=10&sort=updatedAt:desc

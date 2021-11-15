@@ -1,4 +1,7 @@
+require('dotenv').config()
 const { Follow } = require("../models")
+const { redisSetAsync, redisGetAsync } = require('../cache')
+const cacheExpired = +process.env.CACHE_EXPIRE_TIME || 300
 class FollowController {
     async index(req, res) {
         let { user_uuid, comic_id } = req.query
@@ -7,7 +10,21 @@ class FollowController {
         if (comic_id) query.where.comic_id = +comic_id
 
         try {
-            let follows = await Follow.findAndCountAll(query)
+            const cacheKey = `cache:follow${user_uuid && ':user:' + user_uuid}${comic_id && ':comic:' + comic_id}`
+
+            let follows = await redisGetAsync(cacheKey)
+            if (follows !== null) {
+                return res.status(200).json({
+                    code: 200,
+                    name: "",
+                    message: "success",
+                    data: JSON.parse(follows)
+                })
+            }
+
+            follows = await Follow.findAndCountAll(query)
+            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(follows))
+
             return res.status(200).json({
                 code: 200,
                 name: "",

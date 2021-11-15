@@ -1,6 +1,7 @@
 require('dotenv/config')
 const express = require("express")
 const app = express()
+const responseTime = require('response-time')
 const server = require('http').createServer(app)
 const cors = require('cors')
 const route = require('./routes')
@@ -13,7 +14,7 @@ const { socketIo, init } = require('./socket-io')
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(responseTime())
 
 route(app)
 let io = init(server)

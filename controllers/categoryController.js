@@ -1,5 +1,8 @@
-const { Category, Comic, sequelize } = require("../models");
+require('dotenv').config()
+const { Category, sequelize } = require("../models");
 const { Op } = require("sequelize");
+const { redisSetAsync, redisGetAsync } = require('../cache')
+const cacheExpired = +process.env.CACHE_EXPIRE_TIME || 300
 class CategoryController {
   async index(req, res) {
     try {
@@ -13,6 +16,7 @@ class CategoryController {
       return res.send(err);
     }
   }
+
   async getById(req, res) {
     let id = req.params.id;
     if (!id) return res.status(400).json({ message: "id not found" });
@@ -27,6 +31,7 @@ class CategoryController {
       return res.status(400).send(err.message);
     }
   }
+
   async getComicsByCategory(req, res) {
     let cateId = req.params.id;
     let { offset, limit, sort } = req.query;
@@ -64,11 +69,23 @@ class CategoryController {
     ];
 
     try {
-      let categories = await Category.findAndCountAll(query);
+      const cacheKey = `cache:categories:${cateId}:comics:${offset}:${limit}`
+      let categories = await redisGetAsync(cacheKey)
+
+      if (categories !== null) {
+        return res.status(200).json({
+          message: "success",
+          data: JSON.parse(categories),
+        });
+      }
+
+      categories = await Category.findAndCountAll(query);
+      await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(categories))
       return res.status(200).json({
         message: "success",
         data: categories,
       });
+
     } catch (err) {
       console.log(err);
       return res.status(400).send(err.message);

@@ -1,8 +1,10 @@
+require('dotenv').config()
+
 const { Comic, sequelize, Comment, ComicCategory, Chapter } = require('../models')
 const { Op } = require("sequelize");
 const { uploadFile, googleDrive, searchParams } = require('../util');
-
-
+const { redisSetAsync, redisGetAsync } = require('../cache')
+const cacheExpired = +process.env.CACHE_EXPIRE_TIME || 300
 class ComicController {
 
     async index(req, res) {
@@ -31,13 +33,28 @@ class ComicController {
         ]
 
         try {
-            let comics = await Comic.findAndCountAll(query)
+            const cacheKey = `cache:comics:${offset}:${limit}`
+
+            let comics = await redisGetAsync(cacheKey)
+
+            if (comics !== null) {
+                return res.status(200).json({
+                    message: "success",
+                    data: JSON.parse(comics)
+                })
+            }
+
+            comics = await Comic.findAndCountAll(query)
+
+            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comics))
+
             return res.status(200).json({
                 message: "success",
                 data: comics
             })
         }
         catch (err) {
+            console.log(err)
             return res.status(400).send(err.message)
         }
     }
@@ -61,7 +78,14 @@ class ComicController {
         ]
 
         try {
-            let comic = await Comic.findByPk(comicId, query)
+
+            const cacheKey = `cache:comic:${comicId}`
+            let comic = await redisGetAsync(cacheKey)
+
+            if (comic !== null) return res.status(200).json({ message: 'success', data: JSON.parse(comic) })
+
+            comic = await Comic.findByPk(comicId, query)
+            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comic))
 
             return res.status(202).json({
                 message: 'success',
@@ -138,7 +162,7 @@ class ComicController {
                 },
 
             },
-             {
+            {
                 association: "chapters",
                 attributes: ['chapter_id', 'chapter_name'],
                 required: true,
@@ -147,7 +171,7 @@ class ComicController {
                 offset: 0
             }
         ]
-     
+
         if (offset) query.offset = +offset
         if (limit) query.limit = +limit
 
@@ -212,9 +236,21 @@ class ComicController {
         ]
 
         try {
-            let comic = await Comic.findByPk(comicId, query)
+            const cacheKey = `cache:comic:chapters`
 
-            return res.status(202).json({
+            let comic = await redisGetAsync(cacheKey)
+
+            if (comic !== null) {
+                return res.status(200).json({
+                    message: 'success',
+                    data: JSON.parse(comic)
+                })
+            }
+
+            comic = await Comic.findByPk(comicId, query)
+            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comic))
+
+            return res.status(200).json({
                 message: 'success',
                 data: comic
             })
