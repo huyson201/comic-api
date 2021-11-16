@@ -2,7 +2,21 @@ const { Comment, sequelize, Comic } = require('../models')
 const sendCommentNotify = require('../queues/comment-notify.queue')
 class CommentController {
     async index(req, res) {
-        const query = {}
+        const { parentId } = req.query
+
+        const query = {
+            where: {},
+            order: [['createdAt', 'DESC']],
+            include: [{
+                association: 'user_info',
+                attributes: ['user_name', 'user_image', 'user_email']
+            }]
+        }
+
+        if (parentId) {
+            query.where.parent_id = parentId
+        }
+
         try {
             let comments = await Comment.findAndCountAll(query)
             return res.status(200).json({
@@ -72,6 +86,8 @@ class CommentController {
             return res.send(error)
         }
     }
+
+
 }
 
 const commentController = new CommentController
