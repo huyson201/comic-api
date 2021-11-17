@@ -263,8 +263,8 @@ class ComicController {
 
     async getComments(req, res) {
         let comic_id = req.params.id
-        let { offset, limit, sort } = req.query
-        const queryComic = {}
+        let { offset, limit, sort, parent_id } = req.query
+
         const queryComment = {}
 
         if (!comic_id) return res.status(404).send("comic id not found")
@@ -277,42 +277,19 @@ class ComicController {
             queryComment.order = [[col, value]]
         }
 
-        queryComment.where = { comic_id, parent_id: 0 }
+        if (!parent_id) parent_id = 0
+        queryComment.where = { comic_id, parent_id: parent_id }
 
         queryComment.include = [
-            {
-                association: 'subComments',
-                require: true,
-                nested: true,
-                include: [
-                    {
-                        association: "user_info",
-                        attributes: ["user_name", "user_email", "user_image"]
-                    }
-                ]
-            },
             {
                 association: "user_info",
                 attributes: ["user_name", "user_email", "user_image"]
             }
         ]
 
-
         try {
 
-
-            let comments = await Comment.findAll(queryComment)
-            comments = comments.map(el => {
-                let comment = el.get({ plain: true })
-                comment.subComments = el.subComments.sort((a, b) => {
-                    let dateA = new Date(a)
-                    let dateB = new Date(b)
-
-                    return dateA > dateB ? 1 : -1
-                })
-
-                return comment
-            })
+            let comments = await Comment.findAndCountAll(queryComment)
 
             return res.status(200).json({
                 code: 200,
@@ -320,6 +297,7 @@ class ComicController {
                 message: "success",
                 data: comments
             })
+
         } catch (error) {
             console.log(error)
             return res.status(400).send(error.message)
