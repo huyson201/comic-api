@@ -85,7 +85,7 @@ class ChapterController {
       }
 
       chapters = await Chapter.findAndCountAll(query)
-      await redisSetAsync(cacheKey, cacheExpired, JSON.parse(chapters))
+      await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(chapters))
 
       return res.status(200).json({
         message: "success",
