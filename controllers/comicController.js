@@ -33,20 +33,20 @@ class ComicController {
         ]
 
         try {
-            const cacheKey = `cache:comics:${offset}:${limit}`
+            // const cacheKey = `cache:comics:${offset}:${limit}`
 
-            let comics = await redisGetAsync(cacheKey)
+            // let comics = await redisGetAsync(cacheKey)
 
-            if (comics !== null) {
-                return res.status(200).json({
-                    message: "success",
-                    data: JSON.parse(comics)
-                })
-            }
+            // if (comics !== null) {
+            //     return res.status(200).json({
+            //         message: "success",
+            //         data: JSON.parse(comics)
+            //     })
+            // }
 
-            comics = await Comic.findAndCountAll(query)
+            let comics = await Comic.findAndCountAll(query)
 
-            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comics))
+            // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comics))
 
             return res.status(200).json({
                 message: "success",
