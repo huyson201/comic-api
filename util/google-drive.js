@@ -26,6 +26,7 @@ const uploadFileDrive = (file) => {
             })
             fs.unlinkSync(filePath)
             resolve(res)
+            // console.log(res,"create");
         }
         catch (error) {
             fs.unlinkSync(filePath)
@@ -53,10 +54,9 @@ const updateFileDrive = (fileId, file) => {
                 }
             })
 
-
-
             fs.unlinkSync(filePath)
             resolve(res)
+            // console.log(res,"005465464561");
         }
         catch (error) {
             fs.unlinkSync(filePath)

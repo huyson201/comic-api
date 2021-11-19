@@ -113,19 +113,18 @@ class ChapterController {
     }
   }
 
+  async updriver(req, res) {
+    if (req.file) {
+      const imgUrl = await uploadFile(req.file)
+      return res.status(200).json({ data: imgUrl, message: "Up driver successfully!" })
+    }
+    return res.status(200).json({ error: "Up load fail" })
+  }
+
   async create(req, res) {
-    let { comic_id, chapter_name } = req.body
+    let { comic_id, chapter_name, chapter_imgs } = req.body
     const t = await sequelize.transaction()
     try {
-      let imgs = []
-      if (req.files) {
-        for (let file of req.files) {
-          console.log(file);
-          const imgUrl = await uploadFile(file)
-          imgs.push(imgUrl)
-        }
-      }
-      const chapter_imgs = imgs.toString()
       // create chapter
       let chapter = await Chapter.create({ comic_id, chapter_name, chapter_imgs }, { transaction: t })
       await t.commit()
@@ -136,23 +135,17 @@ class ChapterController {
     }
   }
 
-  async updateImg(req, res) {
+  async updateImgs(req, res) {
     let { chapter_name, chapter_imgs } = req.body
     let chapter_id = req.params.id
-    // const temp = old_img
     const t = await sequelize.transaction()
-    console.log("file file file ne", req.files);
     try {
       let chapter = await Chapter.findByPk(chapter_id)
-      // upload img
-      let imgsUrl = []
-      if (req.files) {
-        for (let img of req.files) {
-          let result = await uploadFile(img)
-          imgsUrl.push(result)
-        }
-      }
-      if (imgsUrl.length > 0) chapter_imgs = imgsUrl.toString()
+      // const imgs = chapter.chapter_imgs.split(",")
+      // imgs.forEach(e => {
+      //   googleDrive.deleteFileDrive(searchParams(e).get('id'))
+      // });
+
       await chapter.update({ chapter_name, chapter_imgs }, { transaction: t })
       await t.commit()
       return res.status(200).json({ data: chapter, message: "Update chapter successfully!" })
@@ -161,25 +154,76 @@ class ChapterController {
       await t.rollback()
       return res.status(400).send(error.message)
     }
-    // await chapter.update(data)
-
-    // //upload chap img
-    // if (req.file) {
-    //   if (old_img) {
-    //     let fileId = searchParams(old_img).get('id')
-    //     googleDrive.updateFileDrive(fileId, req.file)
-    //     data.chapter_img = chapter.chapter_imgs.replace(temp, old_img)
-    //   }
-    //   else {
-    //     let imgUrl = await uploadFile(req.file)
-    //     data.chapter_img = chapter.chapter_imgs + ',' + imgUrl
-    //   }
-    //   console.log(old_img, "old img");
-    //   console.log(temp, "temp");
-    // }
-    // update chap
   }
 
+  async updateImg(req, res) {
+    // update chap
+    let { chapter_name, chapter_imgs } = req.body
+    let chapter_id = req.params.id
+    const t = await sequelize.transaction()
+    try {
+      let chapter = await Chapter.findByPk(chapter_id)
+      if (req.file) {
+        if (chapter_imgs) {
+          let fileId = searchParams(chapter_imgs).get('id')
+          await googleDrive.updateFileDrive(fileId, req.file)
+          let link = await googleDrive.generatePublicUrl(fileId)
+          const url = link.data.thumbnailLink.replace(/=s(\w)*$/i, '') + `?id=${link.data.id}`
+
+          let imgs = chapter.chapter_imgs.split(',')
+          if (imgs.length > 1) {
+            for (let i = 0; i < imgs.length; i++) {
+              if (searchParams(imgs[i]).get('id') === fileId) {
+                imgs[i] = url
+              }
+            }
+          } else {
+            imgs[0] = url
+          }
+          chapter_imgs = imgs.toString()
+        }
+      }
+      await chapter.update({ chapter_name, chapter_imgs }, { transaction: t })
+      await t.commit()
+      return res.status(200).json({ data: chapter, message: "Update chapter successfully!" })
+    } catch (error) {
+      console.log(error)
+      await t.rollback()
+      return res.status(400).send(error.message)
+    }
+  }
+
+  async deleteImg(req, res) {
+    const { chapter_imgs } = req.body
+    const chapter_id = req.params.id
+    const t = await sequelize.transaction()
+
+    try {
+      let chapter = await Chapter.findByPk(chapter_id)
+      let fileId = searchParams(chapter_imgs).get('id')
+      let imgs = chapter.chapter_imgs.split(',')
+      if (imgs.length > 1) {
+        for (let i = 0; i < imgs.length; i++) {
+          if (searchParams(imgs[i]).get('id') == fileId) {
+            imgs.splice(i, 1)
+            await googleDrive.deleteFileDrive(fileId)
+          }
+        }
+      } else {
+        await googleDrive.deleteFileDrive(searchParams(imgs[0]).get('id'))
+        imgs = []
+      }
+      console.log(imgs);
+      chapter_imgs = imgs.toString()
+      await chapter.update({ chapter_imgs }, { transaction: t })
+      await t.commit()
+      return res.status(200).json({ data: chapter, message: "Delete image successfully!" })
+    } catch (error) {
+      console.log(error)
+      await t.rollback()
+      return res.status(400).send(error.message)
+    }
+  }
 
 }
 
