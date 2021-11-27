@@ -7,7 +7,6 @@ adminChapterRoute.post('/upload', upload.single('img'), chapterController.updriv
 adminChapterRoute.patch('/:id', chapterController.updateImgs)
 adminChapterRoute.patch('/img/:id', upload.single('img'), chapterController.updateImg)
 adminChapterRoute.patch('/delete/img/:id', chapterController.deleteImg)
-
 adminChapterRoute.delete('/delete/:id', chapterController.delete)
 
 module.exports = adminChapterRoute
