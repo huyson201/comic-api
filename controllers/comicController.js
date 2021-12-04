@@ -156,16 +156,15 @@ class ComicController {
             {
                 association: "categories",
                 where: { 'category_id': { [Op.in]: categories } },
+                required: true,
                 attributes: [],
                 through: {
                     attributes: []
                 },
-
             },
             {
                 association: "chapters",
                 attributes: ['chapter_id', 'chapter_name'],
-                required: true,
                 order: [["chapter_id", "desc"]],
                 limit: 1,
                 offset: 0
