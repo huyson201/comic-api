@@ -1,14 +1,14 @@
 @hostURL=https://love-comic.herokuapp.com/api
 @localURl=http://localhost:3001/api
 ###
-POST {{hostURL}}/register
+POST {{localURl}}/register
 content-type: application/json
 
 {
-    "user_email": "huyson2021@gmail.com",
-    "user_password": "asdasd",
-    "confirm_password": "asdasd",
-    "user_name": "huy son"
+    "user_email": "oanh@gmail.com",
+    "user_password": "123123",
+    "confirm_password": "123123",
+    "user_name": "oanh"
    
 }
 
