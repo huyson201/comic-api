@@ -35,18 +35,18 @@ class ChapterController {
     let chapterId = req.params.id;
     if (!chapterId) return res.status(400).send('chapter id not found');
     try {
-      // const cacheKey = `cache:chapter:${chapterId}`
+      const cacheKey = `cache:chapter:${chapterId}`
 
-      // let chapter = await redisGetAsync(cacheKey)
-      // if (chapter !== null) {
-      //   return res.status(200).json({
-      //     message: "success",
-      //     data: JSON.parse(chapter),
-      //   });
-      // }
+      let chapter = await redisGetAsync(cacheKey)
+      if (chapter !== null) {
+        return res.status(200).json({
+          message: "success",
+          data: JSON.parse(chapter),
+        });
+      }
 
       let chapter = await Chapter.findByPk(chapterId);
-      // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(chapter))
+      await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(chapter))
       return res.status(200).json({
         message: "success",
         data: chapter,
@@ -75,17 +75,17 @@ class ChapterController {
     }
 
     try {
-      // const cacheKey = `cache:comic:${comic_id}:chapters${(offset && limit) && `:${offset}:${limit}`}`
-      // let chapters = await redisGetAsync(cacheKey)
-      // if (chapters !== null) {
-      //   return res.status(200).json({
-      //     message: "success",
-      //     data: JSON.parse(chapters),
-      //   })
-      // }
+      const cacheKey = `cache:comic:${comic_id}:chapters${(offset && limit) && `:${offset}:${limit}`}`
+      let chapters = await redisGetAsync(cacheKey)
+      if (chapters !== null) {
+        return res.status(200).json({
+          message: "success",
+          data: JSON.parse(chapters),
+        })
+      }
 
       let chapters = await Chapter.findAndCountAll(query)
-      // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(chapters))
+      await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(chapters))
 
       return res.status(200).json({
         message: "success",

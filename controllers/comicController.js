@@ -79,13 +79,13 @@ class ComicController {
 
         try {
 
-            const cacheKey = `cache:comic:${comicId}`
-            let comic = await redisGetAsync(cacheKey)
+            // const cacheKey = `cache:comic:${comicId}`
+            // let comic = await redisGetAsync(cacheKey)
 
-            if (comic !== null) return res.status(200).json({ message: 'success', data: JSON.parse(comic) })
+            // if (comic !== null) return res.status(200).json({ message: 'success', data: JSON.parse(comic) })
 
-            comic = await Comic.findByPk(comicId, query)
-            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comic))
+            let comic = await Comic.findByPk(comicId, query)
+            // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comic))
 
             return res.status(202).json({
                 message: 'success',
@@ -236,19 +236,19 @@ class ComicController {
         ]
 
         try {
-            const cacheKey = `cache:comic:chapters`
+            // const cacheKey = `cache:comic:chapters`
 
-            let comic = await redisGetAsync(cacheKey)
+            // let comic = await redisGetAsync(cacheKey)
 
-            if (comic !== null) {
-                return res.status(200).json({
-                    message: 'success',
-                    data: JSON.parse(comic)
-                })
-            }
+            // if (comic !== null) {
+            //     return res.status(200).json({
+            //         message: 'success',
+            //         data: JSON.parse(comic)
+            //     })
+            // }
 
-            comic = await Comic.findByPk(comicId, query)
-            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comic))
+            let comic = await Comic.findByPk(comicId, query)
+            // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(comic))
 
             return res.status(200).json({
                 message: 'success',

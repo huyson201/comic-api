@@ -69,18 +69,18 @@ class CategoryController {
     ];
 
     try {
-      const cacheKey = `cache:categories:${cateId}:comics:${offset}:${limit}`
-      let categories = await redisGetAsync(cacheKey)
+      // const cacheKey = `cache:categories:${cateId}:comics:${offset}:${limit}`
+      // let categories = await redisGetAsync(cacheKey)
 
-      if (categories !== null) {
-        return res.status(200).json({
-          message: "success",
-          data: JSON.parse(categories),
-        });
-      }
+      // if (categories !== null) {
+      //   return res.status(200).json({
+      //     message: "success",
+      //     data: JSON.parse(categories),
+      //   });
+      // }
 
-      categories = await Category.findAndCountAll(query);
-      await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(categories))
+      let categories = await Category.findAndCountAll(query);
+      // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(categories))
       return res.status(200).json({
         message: "success",
         data: categories,

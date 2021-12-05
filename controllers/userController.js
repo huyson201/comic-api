@@ -181,25 +181,25 @@ class UserController {
       },
     ];
     try {
-      const cacheKey = `cache:user:${uuid}:follows${
-        limit && offset && `:${offset}:${limit}`
-      }`;
-      let user = await redisGetAsync(cacheKey);
-      if (user !== null) {
-        return res.status(200).json({
-          code: 200,
-          name: "",
-          message: "success",
-          data: JSON.parse(user),
-        });
-      }
+      // const cacheKey = `cache:user:${uuid}:follows${
+      //   limit && offset && `:${offset}:${limit}`
+      // }`;
+      // let user = await redisGetAsync(cacheKey);
+      // if (user !== null) {
+      //   return res.status(200).json({
+      //     code: 200,
+      //     name: "",
+      //     message: "success",
+      //     data: JSON.parse(user),
+      //   });
+      // }
 
       let countComics = await Follow.count({ where: { user_uuid: uuid } });
-      user = await User.findByPk(uuid, query);
+      let user = await User.findByPk(uuid, query);
       user = user.toJSON();
       user.count = countComics;
 
-      await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(user));
+      // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(user));
 
       return res.status(200).json({
         code: 200,

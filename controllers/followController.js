@@ -10,20 +10,20 @@ class FollowController {
         if (comic_id) query.where.comic_id = +comic_id
 
         try {
-            const cacheKey = `cache:follow${user_uuid && ':user:' + user_uuid}${comic_id && ':comic:' + comic_id}`
+            // const cacheKey = `cache:follow${user_uuid && ':user:' + user_uuid}${comic_id && ':comic:' + comic_id}`
 
-            let follows = await redisGetAsync(cacheKey)
-            if (follows !== null) {
-                return res.status(200).json({
-                    code: 200,
-                    name: "",
-                    message: "success",
-                    data: JSON.parse(follows)
-                })
-            }
+            // let follows = await redisGetAsync(cacheKey)
+            // if (follows !== null) {
+            //     return res.status(200).json({
+            //         code: 200,
+            //         name: "",
+            //         message: "success",
+            //         data: JSON.parse(follows)
+            //     })
+            // }
 
-            follows = await Follow.findAndCountAll(query)
-            await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(follows))
+            let follows = await Follow.findAndCountAll(query)
+            // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(follows))
 
             return res.status(200).json({
                 code: 200,
@@ -40,7 +40,7 @@ class FollowController {
     async create(req, res) {
         let { comic_id } = req.body
         let user_uuid = req.user.user_uuid
-
+        const cacheKey = `cache:follow${user_uuid && ':user:' + user_uuid}${comic_id && ':comic:' + comic_id}`
 
         try {
             let existFollow = await Follow.findOne({ where: { user_uuid, comic_id } })
@@ -54,6 +54,7 @@ class FollowController {
             }
 
             let follow = await Follow.create({ user_uuid, comic_id })
+
             return res.status(201).json({
                 code: 201,
                 name: "CREATED_FOLLOW",
