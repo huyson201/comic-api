@@ -19,7 +19,7 @@ class AuthController {
 
       // generate token and refresh token
 
-      let token = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s")
+      let token = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "2h")
 
       let refreshToken = generateRefreshToken(user, process.env.REFRESH_TOKEN_SECRET, "7d")
 
