@@ -169,12 +169,13 @@ class UserController {
       {
         association: "comics_follow",
         attributes: [
-          "chapter_id",
+          "comic_id",
           "comic_name",
           "comic_img",
           "createdAt",
           "updatedAt",
         ],
+     
         through: {
           attributes: [],
         },

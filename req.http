@@ -111,8 +111,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI5Y
 
 
 ### get follows
-GET http://localhost:3001/api/users/9c1dc958-6caf-4222-90b0-f61a56d632be/histories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI5YzFkYzk1OC02Y2FmLTQyMjItOTBiMC1mNjFhNTZkNjMyYmUiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiaWF0IjoxNjM3NDI0NjczLCJleHAiOjE2Mzc0MzE4NzN9.o8YN4W4_xb1M7XeOa4XgOUzbCMIEOh36c8lAyonc7HE
+GET http://localhost:3001/api/users/40428689-7799-4216-9cee-d8d67be3a075/follows
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI0MDQyODY4OS03Nzk5LTQyMTYtOWNlZS1kOGQ2N2JlM2EwNzUiLCJpYXQiOjE2Mzg2OTk1ODQsImV4cCI6MTYzOTMwNDM4NH0.fgn737fnqMK8N7Zb83uzzh5HaOKqgcbFemp73Cx3oTQ
 
 ### get follows by user_uuid, comic-id
 GET http://localhost:3001/api/histories?user_uuid=9c1dc958-6caf-4222-90b0-f61a56d632be&comic_id=1
