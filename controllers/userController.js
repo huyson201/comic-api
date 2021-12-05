@@ -181,7 +181,9 @@ class UserController {
         },
       },
     ];
+
     try {
+
       // const cacheKey = `cache:user:${uuid}:follows${
       //   limit && offset && `:${offset}:${limit}`
       // }`;
@@ -199,7 +201,7 @@ class UserController {
       let user = await User.findByPk(uuid, query);
       user = user.toJSON();
       user.count = countComics;
-
+      console.log(user)
       // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(user));
 
       return res.status(200).json({

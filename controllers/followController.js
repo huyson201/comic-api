@@ -24,7 +24,7 @@ class FollowController {
 
             let follows = await Follow.findAndCountAll(query)
             // await redisSetAsync(cacheKey, cacheExpired, JSON.stringify(follows))
-
+            console.log(follows)
             return res.status(200).json({
                 code: 200,
                 name: "",

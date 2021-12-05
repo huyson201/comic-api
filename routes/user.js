@@ -14,7 +14,7 @@ userRoute.patch('/change-password', userController.changePassword)
 
 userRoute.patch('/:uuid', authMiddleware.checkUserToken, upload.single('user_image'), authMiddleware.authRole([role.ADMIN, role.USER]), userMiddleware.authUpdate, userController.update)
 
-userRoute.get('/:uuid/follows', authMiddleware.checkUserToken, authMiddleware.authRole([role.ADMIN,role.USER]), userMiddleware.authGetFollows, userController.getFollows)
+userRoute.get('/:uuid/follows', authMiddleware.checkUserToken, userMiddleware.authGetFollows, userController.getFollows)
 userRoute.get('/:uuid/histories', authMiddleware.checkUserToken, userController.getHistories)
 
 userRoute.get('/:uuid/notifications', userController.getNotifications)
