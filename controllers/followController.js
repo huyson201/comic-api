@@ -40,7 +40,7 @@ class FollowController {
     async create(req, res) {
         let { comic_id } = req.body
         let user_uuid = req.user.user_uuid
-        const cacheKey = `cache:follow${user_uuid && ':user:' + user_uuid}${comic_id && ':comic:' + comic_id}`
+        // const cacheKey = `cache:follow${user_uuid && ':user:' + user_uuid}${comic_id && ':comic:' + comic_id}`
 
         try {
             let existFollow = await Follow.findOne({ where: { user_uuid, comic_id } })

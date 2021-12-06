@@ -3,7 +3,6 @@ const { getStreamFile } = require("../util/s3")
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const { sendMailResetPassword } = require('../util/mailer')
-const { RESET_PASSWORD_HOST } = require('../constants')
 const googleDrive = require('../util/google-drive.js')
 class SiteController {
     index(req, res) {
@@ -33,7 +32,7 @@ class SiteController {
             let token = jwt.sign(payload, process.env.RESET_PASSWORD_TOKEN_SECRET, { expiresIn: '15m' })
 
             // send link rest password to user's email
-            let link = RESET_PASSWORD_HOST + '/reset-password/' + token
+            let link = process.env.RESET_PASSWORD_HOST || 'localhost:3000' + '/reset-password/' + token
 
             let info = await sendMailResetPassword(link, user_email)
 
