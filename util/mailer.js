@@ -52,6 +52,7 @@ const createMailOption = (fromMail, toMail, subject, textContent, htmlContent) =
 }
 
 const createMailRestPassword = (link) => {
+
     let message = `<p>Chào bạn,</p>
         Bạn vừa thực hiện yêu cầu phục hồi mật khẩu, để thay đổi mật khẩu, bạn vui lòng click vào đường link bên dưới:<br>
         <a href='${link}'>Click here to redirect to reset password page</a>

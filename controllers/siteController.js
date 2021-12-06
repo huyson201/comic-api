@@ -32,8 +32,7 @@ class SiteController {
             let token = jwt.sign(payload, process.env.RESET_PASSWORD_TOKEN_SECRET, { expiresIn: '15m' })
 
             // send link rest password to user's email
-            let link = process.env.RESET_PASSWORD_HOST || 'localhost:3000' + '/reset-password/' + token
-
+            let link = (process.env.RESET_PASSWORD_HOST || 'localhost:3000') + '/reset-password/' + token
             let info = await sendMailResetPassword(link, user_email)
 
             return res.status(200).json({ code: 200, message: info.response, data: true })
