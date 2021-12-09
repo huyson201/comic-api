@@ -17,8 +17,8 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"ngoc@gmail.com",
-    "user_password": "123123"
+    "user_email" :"oanh1@gmail.com",
+    "user_password": "123456"
 }
 
 ###
@@ -100,13 +100,24 @@ Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI4ZW
 }
 
 ### change password
-patch http://localhost:3001/api/users/change-password
+PATCH http://localhost:3001/api/users/change-password
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI5Yzc1MjZmNy1jYzIyLTQyMzMtYmE4NC0xNzFiNDdjNDY0MzIiLCJ1c2VyX25hbWUiOiJodXkgc29uIiwidXNlcl9lbWFpbCI6Imh1eXNvbjIwMUBnbWFpbC5jb20iLCJ1c2VyX2ltYWdlIjpudWxsLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiY3JlYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzo0NTozMC4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0xMC0yOFQxMzo0NTozMC4wMDBaIiwiaWF0IjoxNjM1NDI4NzM1LCJleHAiOjE2MzU0MzU5MzV9.PaYtFugykZmIi2ydnS63ZmVxO5SNiF2c4JY974OiZeU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI0MTViYWZiOC1lYmMyLTQ1YTktODA1Yi1iNDMyZDNlNjUyNjkiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImlhdCI6MTYzOTAzNTYyMSwiZXhwIjoxNjM5MDQyODIxfQ.oI2ZIouk2KmpHFFp16gAWSFV55xYFpMuxchtZ_NnLdI
 
 {
-   "old_password": "asdasd",
-   "new_password": "asdasd123"
+   "old_password": "123456",
+   "new_password": "123456"
+}
+
+
+### change password
+PATCH https://api-my-comics.herokuapp.com/api/users/change-password
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiI3ZjYzYWQyMC1kNWE0LTQ4M2EtOWEwZS02YTRhMDY1YzBjYmYiLCJ1c2VyX3JvbGUiOiJ1c2VyIiwiaWF0IjoxNjM5MDM0NzkxLCJleHAiOjE2MzkwNDE5OTF9.A3iT94qry244XWQNT6NmDvI3t6FAFSWXl1U_EPPKdEI
+
+{
+   "old_password": "123456",
+   "new_password": "123456"
 }
 
 
