@@ -1,7 +1,7 @@
 require('dotenv').config()
 const nodemailer = require('nodemailer')
 const mailerConfig = require('../config/mailer')
-
+const jsonConfig = require('../config/gmail-api-329906-c008c5e3961f.json')
 
 const sendMailResetPassword = async (link, toEmail) => {
 
@@ -12,9 +12,12 @@ const sendMailResetPassword = async (link, toEmail) => {
         port: 465,
         secure: true,
         auth: {
-            type: 'LOGIN',
+            type: 'OAuth2',
+            serviceClient: jsonConfig.client_id,
+            privateKey: jsonConfig.private_key,
             user: mailerConfig.user,
-            pass: mailerConfig.password
+            pass: mailerConfig.password,
+
         },
         tls: {
             // do not fail on invalid certs
@@ -22,6 +25,8 @@ const sendMailResetPassword = async (link, toEmail) => {
         }
 
     })
+
+    await transporter.verify();
     let message = createMailRestPassword(link)
     let option = createMailOption('coronaviruss.covid2021@gmail.com', toEmail, 'Reset password Love Comics', '', message)
 
