@@ -128,6 +128,7 @@ class UserController {
     let { old_password, new_password } = req.body;
 
     try {
+      console.log(req);
       let user = req.user;
       if (!user) return res.status(401).send("unauthorized");
 

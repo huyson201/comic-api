@@ -10,7 +10,7 @@ const upload = multer({ dest: 'uploads/' })
 
 userRoute.get('/:uuid', authMiddleware.checkUserToken, authMiddleware.authRole([role.ADMIN, role.USER]), userMiddleware.authGetDetail, userController.getById)
 
-userRoute.patch('/change-password', userController.changePassword)
+userRoute.patch('/change-password',authMiddleware.checkUserToken, userController.changePassword)
 
 userRoute.patch('/:uuid', authMiddleware.checkUserToken, upload.single('user_image'), authMiddleware.authRole([role.ADMIN, role.USER]), userMiddleware.authUpdate, userController.update)
 
