@@ -1,7 +1,6 @@
 require('dotenv').config()
 const nodemailer = require('nodemailer')
 const mailerConfig = require('../config/mailer')
-const jsonConfig = require('../config/gmail-api-329906-c008c5e3961f.json')
 
 const sendMailResetPassword = async (link, toEmail) => {
 
@@ -10,11 +9,9 @@ const sendMailResetPassword = async (link, toEmail) => {
         service: 'Gmail',
         host: 'smtp.gmail.com',
         port: 465,
-        secure: true,
+        secure: false,
         auth: {
-            type: 'OAuth2',
-            serviceClient: jsonConfig.client_id,
-            privateKey: jsonConfig.private_key,
+            type: 'Login',
             user: mailerConfig.user,
             pass: mailerConfig.password,
 
