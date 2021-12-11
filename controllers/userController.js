@@ -176,7 +176,7 @@ class UserController {
           "createdAt",
           "updatedAt",
         ],
-     
+
         through: {
           attributes: [],
         },
@@ -228,6 +228,9 @@ class UserController {
           association: "notifier_info",
           attributes: ["user_name", "user_image", "user_role"],
         },
+        {
+          association: "comment_info"
+        }
       ],
     };
     try {
