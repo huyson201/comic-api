@@ -5,6 +5,7 @@ const commentNotifyProcess = async (job, jobDone) => {
     let notify = await CommentNotification.create(job.data)
     let notifyData = notify.get({ plain: true })
     notifyData.notifier_info = notify.getNotifier_info()
+    notifyData.comment_info = notify.getComment_info()
     const actorConnected = await getUserConnected(job.data.actor_id)
 
     console.log(actorConnected)
