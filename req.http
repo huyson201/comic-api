@@ -17,8 +17,8 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "user_email" :"oanh1@gmail.com",
-    "user_password": "123456"
+    "user_email" :"huyson201@gmail.com",
+    "user_password": "asdasd"
 }
 
 ###
@@ -241,7 +241,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3V1aWQiOiIxZ
 
 # @name getNotificationOfUser
 
-GET {{localURl}}/users/c3576449-16cb-46dd-9241-b4a8912d77a2/notifications
+GET {{localURl}}/users/e6ec0828-1699-4167-b531-7b15d1e7f3e6/notifications
 Content-Type:  application/json
 
 
