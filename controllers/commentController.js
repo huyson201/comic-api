@@ -87,6 +87,20 @@ class CommentController {
         }
     }
 
+    async getById(req, res) {
+        let id = req.params.id
+        if (!id) return res.status(404).send('comment id not found')
+
+        try {
+            let comment = await Comment.findByPk(id)
+            return res.status(200).json({
+                data: comment
+            })
+        } catch (error) {
+            return res.status(400).send(error.message)
+        }
+    }
+
 
 }
 

@@ -6,4 +6,5 @@ const authMiddleware = require('../middleware/auth')
 commentRoute.post('/', authMiddleware.checkUserToken, commentController.create)
 commentRoute.get('/', commentController.index)
 commentRoute.get('/record-count', commentController.count)
+commentRoute.get('/:id', commentController.getById)
 module.exports = commentRoute
